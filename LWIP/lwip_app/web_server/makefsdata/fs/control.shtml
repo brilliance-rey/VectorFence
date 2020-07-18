@@ -1,0 +1,524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- <meta http-equiv="refresh" content="30"> -->
+<title>张力围栏主机</title>
+
+<script src="./common.js"></script>
+
+<script type="text/javascript">
+
+var operate_msg_ck = unescape(getCookie("operate_msg"));
+if(operate_msg_ck != ""){
+	addCookie("rtn_url", "control.shtml");
+	window.location = "process.shtml";
+}
+</script>
+
+<style type="text/css">
+.ul1{margin:0;padding:0; list-style:none;}
+.li1{margin:0;padding:0; list-style:none;}
+.menu{width:1000px;height:40px;margin:0 auto; background:url(image/tab.jpg) repeat-x; }
+.menu ul{width:1000px;float:left;height:40px;display:inline;}
+.menu ul li{width:166px;height:40px; line-height:40px; text-align:center; float:left;display:inline; }
+.menu ul li a{width:166px;height:40px; float:left;text-decoration:none; color:#fff; font-size:18px;font-weight:bold;}
+.menu ul li a:hover{ background:#FF0000 repeat-x; }		
+.logo{}
+.bodystyle{  margin:0 auto; width:1000px; background:#d5d5d7;}
+
+
+.txtstyle_ten{width:42%; font-size:18px; text-align:center; valign="middle"}
+.txtstyle250{width:250px; font-size:18px; text-align:center; valign="middle"}
+.txtstyle{width:200px; font-size:18px; text-align:center; valign="middle"}
+ 
+</style>
+</head>
+<body class="bodystyle">
+<div style="background-color:#FFFFFF;">
+	<div class="logo">
+	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	</div>
+</div>
+ 
+<div class="menu">
+	<ul class="ul1">
+    	<li class="li1"><a href="state.shtml">状态显示</a></li>
+        <li class="li1"><a href="control.shtml">布防控制</a></li>
+        <li class="li1"><a href="parameters.shtml">参数设置</a></li>
+        <li class="li1"><a href="log.shtml">日志</a></li>
+        <li class="li1"><a href="about.shtml">关于</a></li>
+        <li class="li1"><a href="index.shtml">登出</a></li>
+    </ul>
+</div>
+<div style="background-color:#0066CC;color:#fff; ">
+	<h3  >
+	  <span >防区参数设置</span>
+	</h3>
+</div>
+<div style="display :none">
+	<label id = "field_para_0"><!--#f--></label>
+	<label id = "field_s0d1_0"><!--#x--></label>
+	<label id = "shutdown_0"><!--#z--></label>
+</div>
+<div align="center">
+<table border="1" cellpadding="2" align="center"> 
+<tr>
+  <th width="150" align="center"><strong>防区</strong></th>
+  <th width="200" align="center"><strong>防区号(1-80)</strong></th>
+  <th width="200" align="center"><strong>警号延时(秒)</strong></th>
+  <th width="200" align="center"><strong>灵敏度</strong></th>
+  <!-- <th width="200" align="center"><strong>拉力监控有效范围(Kg)</strong></th> -->
+  <th width="200" align="center"><strong>报警复位</strong></th>
+</tr>
+<tr>
+  <th width="150" align="center" id = "field_0" style = "color: black">A区</th>
+  <td width="200" ><input name="field_num_0" type="text" id="field_num_0" class="txtstyle"/></td>
+  <td width="200" ><input name="alm_dly_0" type="text" id="alm_dly_0" class="txtstyle"/></td>
+  <td width="200" align="center"  bgcolor="#FFFFFF">
+  	<select name="sensitivity_0" size="1" id="sensitivity_0" class="txtstyle" >
+	  <option value="1">1级</option>
+	  <option value="2">2级</option>
+	  <option value="3">3级</option>
+	  <option value="4" selected="selected">4级</option>
+	  <option value="5">5级</option>
+	  <option value="6">6级</option>
+	  <option value="7">7级</option>
+	  <option value="8">8级</option>
+	  <option value="9">9级</option>
+	  <option value="10">10级</option>
+	</select>
+  </td>
+  <!-- <td width="200" align="center" >
+    <input name="ten_val_range_0_0" type="text" id="ten_val_range_0_0" class="txtstyle_ten"/>
+    <label>~</label>
+    <input name="ten_val_range_0_1" type="text" id="ten_val_range_0_1" class="txtstyle_ten"/>
+  </td> -->
+  <td width="200" align="center"><input name="alarm_reset_0" onclick="alarmReset(0)" type="submit" value="报警复位" id="alarm_reset_0" style="font-size:15px;"/></td>
+</tr>
+<tr>
+  <th width="150" align="center" id = "field_1" style = "color: black">B区</th>
+  <td width="200" ><input name="field_num_1" type="text" id="field_num_1" class="txtstyle"/></td>
+  <td width="200" ><input name="alm_dly_1" type="text" id="alm_dly_1" class="txtstyle"/></td>
+  <td width="200" align="center"  bgcolor="#FFFFFF">
+  	<select name="sensitivity_1" size="1" id="sensitivity_1" class="txtstyle" >
+	  <option value="1">1级</option>
+	  <option value="2">2级</option>
+	  <option value="3">3级</option>
+	  <option value="4" selected="selected">4级</option>
+	  <option value="5">5级</option>
+	  <option value="6">6级</option>
+	  <option value="7">7级</option>
+	  <option value="8">8级</option>
+	  <option value="9">9级</option>
+	  <option value="10">10级</option>
+	</select>
+  </td>
+  <!-- <td width="200" align="center" >
+	<input name="ten_val_range_1_0" type="text" id="ten_val_range_1_0" class="txtstyle_ten"/>
+	<label>~</label>
+	<input name="ten_val_range_1_1" type="text" id="ten_val_range_1_1" class="txtstyle_ten"/>
+  </td>-->
+  <td width="200" align="center"><input name="alarm_reset_1" onclick="alarmReset(1)" type="submit" value="报警复位" id="alarm_reset_1" style="font-size:15px;" /></td>
+</tr>
+</table>
+<input name="setFieldPara" onclick="setFieldPara()" type="submit" value="提交" style="font-size:15px; margin:5px 30px 0px 0px;" />
+<input name="cancel" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 0px 0px 30px;" />
+</div>
+<div style="background-color:#0066CC;color:#fff;margin-top:2px; ">
+	<h3>
+	  <span >告警开关设置</span>
+	</h3>
+</div>
+<div style="height:0px; display :none">
+	<label id = "control_0"><!--#c--></label>
+</div>
+<div style=" text-align:center;">
+<table border="1" cellpadding="4" align="center">
+<tr>
+  <th width="200" align="right"><strong>防拆告警</strong>：</th>
+  <td width="200" align="center" bgcolor="#FFFFFF" >
+	<form method=post id="bf">
+		<input name="fc" onclick = "control('fc',1)" type="radio" value="fc_on" id="fc_on" checked />开启
+		<input name="fc" onclick = "control('fc',0)" type="radio" value="fc_off" id="fc_off" />关闭
+	</form>
+  </td>
+</tr>
+<tr>
+  <th width="200" align="right" id = "bufang_0" style = "color: black"><strong>A区布防</strong>：</th>
+  <td width="200" align="center" bgcolor="#FFFFFF" >
+	<form method=post id="a_bf">
+		<input name="a_bf" onclick = "control('a_bf',1)" type="radio" value="a_bf_on" id="a_bf_on" checked />开启
+		<input name="a_bf" onclick = "control('a_bf',0)" type="radio" value="a_bf_off" id="a_bf_off" />关闭
+	</form>
+  </td>
+</tr><tr>
+  <th width="200" align="right" id = "bufang_1" style = "color: black"><strong>B区布防</strong>：</th>
+  <td width="200" align="center" bgcolor="#FFFFFF" >
+	<form method=post id="b_bf">
+		<input name="b_bf" onclick = "control('b_bf',1)" type="radio" value="b_bf_on" id="b_bf_on" checked />开启
+		<input name="b_bf" onclick = "control('b_bf',0)" type="radio" value="b_bf_off" id="b_bf_off" />关闭
+	</form>
+  </td>
+</tr>
+</table>
+</div>
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "alarm_threshold_dif_0"><!--#p--></label>
+</div>
+
+<div style="background-color:#0066CC;color:#fff;margin-top:2px; ">
+	<h3>
+		<span >报警阈值设置</span>
+	</h3>
+</div>
+<div style=" text-align:center;">
+	<table border="1" cellpadding="2" align="center">
+		<tr>
+			<th width="200" align="right" id = "vol_level_0" style = "color: black">报警阈值上限偏移量(Kg)：</th>
+			<td width="200" ><input name="alarm_threshold_up_dif_0" type="text" id="alarm_threshold_up_dif_0" class="txtstyle"/></td>
+		</tr>   
+		<tr>
+			<th width="200" align="right" id = "vol_level_1" style = "color: black">报警阈值下限偏移量(Kg)：</th>
+			<td width="200" ><input name="alarm_threshold_down_dif_0" type="text" id="alarm_threshold_down_dif_0" class="txtstyle"/></td>
+		</tr>
+	</table>
+	<input name="setAlarmThreshold" onclick="setAlarmThreshold()" type="submit" value="提交" style="font-size:15px; margin:5px 30px 0px 0px;" />
+	<input name="cancel" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 0px 0px 30px;" />
+</div>
+
+<div id = "tension_paras_set_title" style="background-color:#0066CC;color:#fff;margin-top:2px; ">
+<h3>
+	<span>设备参数设置</span>
+</h3>
+</div>
+<div id = "tension_paras_set_table" style=" text-align:center;">
+<table border="1" cellpadding="2" align="center">
+	<tr>
+		<th width="250" align="right" id = "vol_level_0" style = "color: black">满量程拉力值(Kg)：</th>
+		<td width="250" ><input name="tension_max_range" type="text" id="tension_max_range" class="txtstyle250"/></td>
+	</tr>
+
+	<tr>
+		<th width="250" align="right" id = "vol_level_0" style = "color: black">基准值自动校准时间(分钟)：</th>
+		<td width="250" ><input name="base_auto_calibrate_time" type="text" id="base_auto_calibrate_time" class="txtstyle250"/></td>
+	</tr> 
+</table>
+<input name="setTensionParas" onclick="setTensionParas()" type="submit" value="提交" style="font-size:15px; margin:5px 30px 0px 0px;" />
+<input name="cancel" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 0px 0px 30px;" />
+</div>
+
+<div align="center" style="margin-top:20px;margin-bottom:20px;"></div>
+</body>
+<script type="text/javascript">
+
+var shutdown_0_txt = document.getElementById("shutdown_0");
+shutdown_0_txt = shutdown_0_txt.innerHTML.substr(9);
+var shutdown_vals = Number(shutdown_0_txt);
+if(shutdown_vals == 1){
+	alert("设备已关机，请先进行远程开机!");
+	window.location="remotepower.shtml";
+}
+			
+var regPWM = (/^[0-9]$|^([1-9])([0-9])$|^([1-4])([0-9]){1,2}$|^500$/); 
+//var pwmLevelAry = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450];
+
+var field_s0d1_0_txt = document.getElementById("field_s0d1_0");
+field_s0d1_0_txt = field_s0d1_0_txt.innerHTML.substr(9);
+var field_s0d1_vals = Number(field_s0d1_0_txt);
+
+document.getElementById('logo_img').src = (field_s0d1_vals & 0x01) == 0? "image/head_s.jpg" : "image/head_d.jpg";
+
+document.getElementById("field_1").style.color = (field_s0d1_vals & 0x01) == 0? "black" : "gray";
+document.getElementById("field_num_1").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+document.getElementById("alm_dly_1").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+document.getElementById("alarm_reset_1").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+document.getElementById("sensitivity_1").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+//document.getElementById("ten_val_range_1_0").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+//document.getElementById("ten_val_range_1_1").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+	
+document.getElementById("bufang_1").style.color = (field_s0d1_vals & 0x01) == 0? "black" : "gray";
+document.getElementById("b_bf_on").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+document.getElementById("b_bf_off").disabled = (field_s0d1_vals & 0x01) == 0? null : "disabled";
+
+if(!isSU()){
+	document.getElementById("tension_paras_set_title").style.display = "none";
+	document.getElementById("tension_paras_set_table").style.display = "none";
+}
+
+//防区A参数#防区B参数{防区A,B参数格式 :field_num+alarm_delay+alarm_sensitivity+ten_val_range[0]+ten_val_range[1]
+var field_para_0_txt = document.getElementById("field_para_0");
+if(field_para_0_txt != null){
+	field_para_0_txt = field_para_0_txt.innerHTML.substr(9);
+//	field_para_0_txt = "2+30+4+110+120#5+20+5+120+130";
+//	field_para_0_txt = "2+30+4#5+20+5"; //取消拉力有效值设置
+	
+	var field_para_vals = field_para_0_txt.split("#");
+	
+	parseFieldParas(field_para_vals, 0);//A防区
+	parseFieldParas(field_para_vals, 1);//B防区
+}
+
+/**
+ * field_num+alarm_delay+alarm_sensitivity,            //del: +ten_val_range[0]+ten_val_range[1]
+ */
+function parseFieldParas(field_para_vals, index){
+	var field_paras = field_para_vals[index].split("+");
+	
+	document.getElementById("field_num_" + index).value = field_paras[0];
+	document.getElementById("alm_dly_" + index).value = field_paras[1];
+	document.getElementById("sensitivity_" + index).value = field_paras[2];
+//	document.getElementById("ten_val_range_" + index + "_0").value = parseFloat(field_paras[3])/10;
+//	document.getElementById("ten_val_range_" + index + "_1").value = parseFloat(field_paras[4])/10;
+}
+
+var control_0_txt = document.getElementById("control_0");
+//alert("control_0_txt: " + control_0_txt.innerHTML);
+//control_0_txt = "<!--#a-->" + 0x3;
+if(control_0_txt != null){
+	var control_val = Number(control_0_txt.innerHTML.substr(9));
+	///** bit7-bit3 无   bit2: Fangchai   bit1:BuFangB    bit0:BuFangA   1:ON  0:OFF **/
+	if((control_val & 0x04) == 0x04){
+		document.getElementById("fc_on").checked = "true";
+	}else{
+		document.getElementById("fc_off").checked = "true";
+	}
+	
+	if((control_val & 0x02) == 0x02){
+		document.getElementById("b_bf_on").checked = "true";
+	}else{
+		document.getElementById("b_bf_off").checked = "true";
+	}
+	
+	if((control_val & 0x01) == 0x01){
+		document.getElementById("a_bf_on").checked = "true";
+	}else{
+		document.getElementById("a_bf_off").checked = "true";
+	}
+	
+	var alarm_threshold_dif_txt = document.getElementById("alarm_threshold_dif_0");
+	if(alarm_threshold_dif_txt != null){
+		alarm_threshold_dif = alarm_threshold_dif_txt.innerHTML.substr(9);
+//		alarm_threshold_dif = "50#30#20#30"; //测试数据格式： 满量程#上限#下限#基准值自动校准时间
+		var alarm_threshold_difs = alarm_threshold_dif.split("#");
+		document.getElementById("tension_max_range").value = parseInt(alarm_threshold_difs[0])/10;
+		document.getElementById("alarm_threshold_up_dif_0").value = formatAdc(alarm_threshold_difs[1]);
+		document.getElementById("alarm_threshold_down_dif_0").value = formatAdc(alarm_threshold_difs[2]);
+		document.getElementById("base_auto_calibrate_time").value = alarm_threshold_difs[3];
+	}
+}
+
+/**
+ * 55 -- > 05.5; 340 -->34.0
+ */
+function formatAdc(adc){
+	var pfVal = parseFloat(adc)/10;
+	value = pfVal.toString();
+	var valSplit = value.split(".");
+	
+	if(valSplit.length == 1){
+		value += ".0";
+	}
+	if(valSplit[0].length == 1){
+		value = "0" + value;
+	}
+	return value;
+}
+
+function setFieldPara(){
+	var field_num_0_txt = document.getElementById("field_num_0");
+	var alm_dly_0_txt = document.getElementById("alm_dly_0");
+	
+	var field_num_0 = field_num_0_txt.value;
+	if(field_num_0.match(/^\d{1,2}$/) == null){
+		alert("A防区号格式输入有误，请重新输入！");
+		return;
+	}
+	if(Number(field_num_0) < 0 || Number(field_num_0) > 80){
+		alert("A防区号取值为0~80，请重新输入！");
+		return;
+	}
+	
+	var field_num_1_txt = document.getElementById("field_num_1");
+	var alm_dly_1_txt = document.getElementById("alm_dly_1");
+	
+	var field_num_1 = field_num_1_txt.value;
+	if(field_s0d1_vals == 0){
+		if(field_num_1.match(/^\d{1,2}$/) == null){
+			alert("B防区号格式输入有误，请重新输入！");
+			return;
+		}
+		if(Number(field_num_1) < 0 || Number(field_num_1) > 80){
+			alert("B防区号取值为0~80，请重新输入！");
+			return;
+		}
+		
+		if(Number(field_num_0) == Number(field_num_1)){
+			alert("A区和B区的防区号不能相同，请重新输入！");
+			return;
+		}
+	}
+
+	var alm_dly_0 = alm_dly_0_txt.value;
+	if(alm_dly_0.match(/^\d{1,3}$/) == null){
+		alert("A区警号延时输入有误，取值应为0~999，请重新输入！");
+		return;
+	}
+	
+	var alm_dly_1 = alm_dly_1_txt.value;
+	if(alm_dly_1.match(/^\d{1,3}$/) == null){
+		alert("B区警号延时输入有误，取值应为0~999，请重新输入！");
+		return;
+	}
+
+//	if(Number(alm_dly_1) > 999){
+//		alert("B区警号延时取值应为0~999，请重新输入！");
+//		return;
+//	}
+	
+
+	var sensitivity_0_txt = document.getElementById("sensitivity_0");
+//	var ten_val_range_0_0_txt = document.getElementById("ten_val_range_0_0");
+//	var ten_val_range_0_1_txt = document.getElementById("ten_val_range_0_1");
+	
+	var sensitivity_0 = sensitivity_0_txt.value;
+		
+//	var ten_val_range_0_0 = ten_val_range_0_0_txt.value;
+//	if(ten_val_range_0_0.match(/^\d{1,2}$/) == null){
+//		alert("A区拉力监控有效范围下限输入有误，取值应为0~99，请重新输入！");
+//		return;
+//	}
+//	
+//	var ten_val_range_0_1 = ten_val_range_0_1_txt.value;
+//	if(ten_val_range_0_1.match(/^\d{1,2}$/) == null){
+//		alert("A区拉力监控有效范围上限输入有误，取值应为0~99，请重新输入！");
+//		return;
+//	}
+//	
+//	if(Number(ten_val_range_0_0) > Number(ten_val_range_0_1)){
+//		alert("A区拉力监控有效范围下限不能大于上限，请重新输入！");
+//		return;
+//	}
+
+	var sensitivity_1_txt = document.getElementById("sensitivity_1");
+//	var ten_val_range_1_0_txt = document.getElementById("ten_val_range_1_0");
+//	var ten_val_range_1_1_txt = document.getElementById("ten_val_range_1_1");
+	
+	var sensitivity_1 = sensitivity_1_txt.value;
+	
+//	var ten_val_range_1_0 = ten_val_range_1_0_txt.value;
+//	if(ten_val_range_1_0.match(/^\d{1,2}$/) == null){
+//		alert("B区拉力监控有效范围下限输入有误，取值应为0~99，请重新输入！");
+//		return;
+//	}
+//	
+//	var ten_val_range_1_1 = ten_val_range_1_1_txt.value;
+//	if(ten_val_range_1_1.match(/^\d{1,2}$/) == null){
+//		alert("B区拉力监控有效范围上限输入有误，取值应为0~99，请重新输入！");
+//		return;
+//	}
+//	
+//	if(Number(ten_val_range_1_0) > Number(ten_val_range_1_1)){
+//		alert("B区拉力监控有效范围下限不能大于上限，请重新输入！");
+//		return;
+//	}
+	
+	addCookie("operate_msg", "防区参数设置成功！", 0);
+	addCookie("timeout", 0);
+	
+	//control.cgi?field_num_0=2&alm_dly_0=30&sensitivity_0=4&ten_val_range_0_0=110&ten_val_range_0_1=120&field_num_1=5&alm_dly_1=20&sensitivity_1=5&ten_val_range_1_0=120&ten_val_range_1_1=130
+	window.location="control.cgi?" +
+			"field_num_0=" + field_num_0 + "&alm_dly_0=" + alm_dly_0 + "&sensitivity_0=" + sensitivity_0/* + "&ten_val_range_0_0=" + (ten_val_range_0_0 * 10) + "&ten_val_range_0_1=" + (ten_val_range_0_1 * 10)*/
+			+ "&field_num_1=" + field_num_1 + "&alm_dly_1=" + alm_dly_1 + "&sensitivity_1=" + sensitivity_1/* + "&ten_val_range_1_0=" + (ten_val_range_1_0 * 10) + "&ten_val_range_1_1=" + (ten_val_range_1_1 * 10)*/;
+}
+
+/**
+*报警复位
+* value 0: A区， 1：B区。
+*/
+function alarmReset(value){
+	addCookie("operate_msg", (value == 0? "A区" : "B区") + "报警复位成功！", 0);
+	addCookie("timeout", 0);
+	window.location="control.cgi?alarm_reset=" + value;
+}
+
+function control(ctrType, value){
+	var valStr = (value == 1)?"已开启！":"已关闭！";
+	if(ctrType == "fc"){
+		valStr = "防拆告警" + valStr;
+	}else if(ctrType == "a_bf"){
+		valStr = "A区布防" + valStr;
+	}else if(ctrType == "b_bf"){
+		valStr = "B区布防" + valStr;
+	}
+	addCookie("operate_msg", valStr, 0);
+	addCookie("timeout", 0);
+	window.location="control.cgi?CTR_TYPE=" + ctrType +"&CTR_VALUE=" + value;
+}
+
+function setAlarmThreshold(){
+	var reg = (/^\d{1,2}(\.\d)?$/);
+	var alarm_threshold_up_dif_0_txt = document.getElementById("alarm_threshold_up_dif_0");
+	var alarm_threshold_up_dif = alarm_threshold_up_dif_0_txt.value;
+	
+	if(alarm_threshold_up_dif.match(reg) == null){  //匹配0-99，或0.0-99.9
+		alert("报警阈值上限偏移量输入有误（格式：0-99或00.0-99.9），请重新输入！");
+		return;
+	}
+
+	var alarm_threshold_down_dif_0_txt = document.getElementById("alarm_threshold_down_dif_0");
+	var alarm_threshold_down_dif = alarm_threshold_down_dif_0_txt.value;
+	
+	if(alarm_threshold_down_dif.match(reg) == null){  //匹配0-99，或0.0-99.9
+		alert("报警阈值下限偏移量输入有误（格式：0-99或0.0-99.9），请重新输入！");
+		return;
+	}
+	
+	addCookie("operate_msg", "成功设置报警阈值！", 0);
+	addCookie("timeout", 0);
+	window.location="control.cgi?THRESHOLD_UP=" + (parseFloat(alarm_threshold_up_dif) * 10).toString()
+						+ "&THRESHOLD_DOWN=" + (parseFloat(alarm_threshold_down_dif) * 10).toString();
+}
+
+function setTensionParas(){
+	var tension_max_range_txt = document.getElementById("tension_max_range");
+	var tension_max_range_val = tension_max_range_txt.value;
+	
+	if(tension_max_range_val.match(/^\d{1,3}$/) == null){  //匹配0-199
+		alert("满量程拉力值输入有误，请重新输入！");
+		return;
+	}
+	
+	if(Number(tension_max_range_val) < 0 || Number(tension_max_range_val) > 199){
+		alert("满量程拉力值取值为0~199，请重新输入！");
+		return;
+	}
+	
+	var base_auto_calibrate_time_txt = document.getElementById("base_auto_calibrate_time");
+	var base_auto_calibrate_time_val = base_auto_calibrate_time_txt.value;
+	
+	if(base_auto_calibrate_time_val.match(/^\d{1,5}$/) == null){  //匹配0-199
+		alert("基准值自动校准时间输入有误，请重新输入！");
+		return;
+	}
+	
+	if(Number(base_auto_calibrate_time_val) < 0 || Number(base_auto_calibrate_time_val) > 65535){
+		alert("基准值自动校准时间取值为0~65535，请重新输入！");
+		return;
+	}
+	
+//	var rtn = confirm("设置满量程拉力值将恢复报警阈值为默认值，是否继续？");
+//    if (rtn){
+		addCookie("operate_msg", "设备参数设置成功！", 0);
+		addCookie("timeout", 0);
+		window.location="control.cgi?TENSION_MAX_RANGE=" + (Number(tension_max_range_val) * 10).toString() 
+		+ "&BASE_AUTO_CALIBRATE_TIME=" + base_auto_calibrate_time_val;
+//    }
+}
+
+function cancel(){
+	window.location="control.shtml";
+}
+</script>
+</html>

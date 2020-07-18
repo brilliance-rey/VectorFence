@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title></title>
+
+<script src="./common.js"></script>
+</head>
+
+<body>
+
+<div style="text-align: center; margin-top: 20px; color: red">
+	<div><span id="msg" style="color: red"></span></div>
+</div>
+
+<script type="text/javascript">
+
+var operate_msg_ck = unescape(getCookie("operate_msg"));
+deleteCookie("operate_msg");
+
+var rtn_url_ck = unescape(getCookie("rtn_url"));
+if(rtn_url_ck == ""){
+	rtn_url_ck = "/";
+}
+deleteCookie("rtn_url");
+
+var timeout_ck = unescape(getCookie("timeout"));
+if(timeout_ck == ""){
+	timeout_ck = 3000;
+}
+deleteCookie("timeout");
+
+if(timeout_ck > 0){
+	document.getElementById("msg").innerHTML = operate_msg_ck;
+	setTimeout("reload()", timeout_ck);
+}else{
+	alert(operate_msg_ck);
+	window.location = rtn_url_ck;
+}
+
+function reload() { 
+	window.location = rtn_url_ck;
+}
+
+</script>
+
+</body>
+
+</html>

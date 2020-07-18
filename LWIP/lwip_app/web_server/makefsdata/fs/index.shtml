@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>张力围栏主机</title>
+
+<script type="text/javascript">
+function addCookie(name, value, expiresMs){
+	var cookieString = name + "=" + escape(value);
+	if(expiresMs > 0){    //判断是否设置过期时间
+		var date=new Date();
+		date.setTime(date.getTime + expiresMs);
+		cookieString = cookieString + "; expires=" + date.toGMTString();
+	}
+	document.cookie = cookieString;
+}
+function deleteCookie(name){
+	var date=new Date();
+	date.setTime(date.getTime()-10000);
+	document.cookie=name+"=v; expires="+date.toGMTString();
+}
+
+deleteCookie("username");
+deleteCookie("password");
+</script>
+
+<style type="text/css">
+.logo{}
+.bodystyle{	margin:0 auto; width:1000px; background-color: #3399CC;}
+ 
+.txtstyle {width:200px; height:30px; font-size:21px; vertical-align:middle}
+
+</style>
+</head>
+
+<body class="bodystyle">
+<div style="background-color:#FFFFFF;">
+	<div class="logo">
+	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	</div>
+</div>
+ 
+<div style="display :none">
+	<label id = "field_s0d1_0"><!--#x--></label>
+	<label id = "shutdown_0"><!--#z--></label>
+</div>
+
+<div align="center" style="margin-top:5px;margin-bottom:10px;"></div>
+<div align="center" style="margin-top:5px;margin-bottom:5px;"></div>
+
+ 
+<div style="background-color:#0066CC;color:#fff;margin-top:5px; "></div>
+
+<div style="margin-top:5px; text-align:center;">
+
+<table border="0" cellpadding="4" align="center">
+  <tr>
+    <th width="100" align="right">用户名：</th>
+    <td width="200" ><input name="NAME" type="text" id="username_input" class="txtstyle" /></td>
+  </tr>
+  <tr>
+    <th width="100" align="right">密&nbsp;&nbsp;码：</th>
+    <td width="200"><input type="password" name="PASSWORD" id="passwd_input" class="txtstyle" οnkeyup="if(event.keyCode==13) {loginSubmit();}" /></td>
+  </tr>
+</table>
+
+<table border="0" cellpadding="4" align="center">
+  <tr>
+    <td width="400" height="30" align="center" id ="errormsg" style="color: #FF0000;"></td>
+  </tr>
+</table>
+
+<input name="Login" onclick="loginSubmit()" type="submit" value="登录" style="font-size:17px;" />
+</div>
+</body>
+
+<script type="text/javascript">
+
+var field_s0d1_0_txt = document.getElementById("field_s0d1_0");
+if(field_s0d1_0_txt != null){
+	field_s0d1_0_txt = field_s0d1_0_txt.innerHTML.substr(9);
+	var field_s0d1_vals = Number(field_s0d1_0_txt);
+	document.getElementById('logo_img').src = (field_s0d1_vals & 0x01) == 0? "image/head_s.jpg" : "image/head_d.jpg";
+}
+
+//var username_txt = document.getElementById("username_0");
+//var password_txt = document.getElementById("password_0");
+
+//var username = username_txt.innerHTML.substr(9);
+//var password = password_txt.innerHTML.substr(9);
+
+function onKeyPress(e) {
+	var keyCode = null;
+
+	if(e.which)
+		keyCode = e.which;
+	else if(e.keyCode)
+		keyCode = e.keyCode;
+
+	if(keyCode == 13) {
+		SendMessage();
+		return false;
+	}
+	return true;
+}
+
+
+
+function loginSubmit(){
+
+	var user = document.getElementById("username_input").value;
+	var pswd = document.getElementById("passwd_input").value;
+	
+	if (user.length == 0){//用户名是空
+		document.getElementById("username_input").style.border="2px solid red";
+		document.getElementById("errormsg").innerHTML="用户名不能为空!";
+	}else if (pswd.length == 0){//密码是空
+		document.getElementById("passwd_input").style.border="2px solid red";
+		document.getElementById("errormsg").innerHTML="密码不能为空!";
+	}else{
+		
+		document.getElementById("username_input").style.border="";
+		document.getElementById("passwd_input").style.border="";
+		document.getElementById("errormsg").innerHTML="";
+	
+		if (user != "admin" && user != "xql" ){//用户不存在
+			document.getElementById("errormsg").innerHTML="用户不存在!";
+		}else if (pswd != "shining" && pswd != "admin@xql"){//密码错误
+			document.getElementById("errormsg").innerHTML="密码错误!";
+		}else{//登录成功
+			addCookie("username", user, 0);
+			addCookie("password", pswd, 0);
+			
+			var shutdown_0_txt = document.getElementById("shutdown_0");
+			shutdown_0_txt = shutdown_0_txt.innerHTML.substr(9);
+			var shutdown_vals = Number(shutdown_0_txt);
+			if(shutdown_vals == 1){
+				alert("设备已关机，请先进行远程开机!");
+				window.location="remotepower.shtml";
+			}else{
+				window.location="state.shtml";
+			}
+		}
+	}
+}
+
+</script>
+
+</html>

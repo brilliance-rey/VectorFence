@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>张力围栏主机</title>
+
+<script src="./common.js"></script>
+
+<script type="text/javascript">
+var operate_msg_ck = unescape(getCookie("operate_msg"));
+if(operate_msg_ck != ""){
+	var remote_shutdown_ck = unescape(getCookie("remote_shutdown"));
+	if(remote_shutdown_ck == 1){
+		deleteCookie("remote_shutdown");
+		addCookie("rtn_url", "index.shtml");
+	}else{
+		addCookie("rtn_url", "parameters.shtml");
+	}
+	window.location = "process.shtml";
+}
+</script>
+
+<style type="text/css">
+
+.ul1{margin:0;padding:0; list-style:none;}
+.li1{margin:0;padding:0; list-style:none;}
+.menu{width:1000px;height:40px;margin:0 auto; background:url(image/tab.jpg) repeat-x; }
+.menu ul{width:1000px;float:left;height:40px;display:inline;}
+.menu ul li{width:166px;height:40px; line-height:40px; text-align:center; float:left;display:inline; }
+.menu ul li a{width:166px;height:40px; float:left;text-decoration:none; color:#fff; font-size:18px;font-weight:bold;}
+.menu ul li a:hover{ background:#FF0000 repeat-x; }		
+
+.logo{}
+.bodystyle{  margin:0 auto; width:1000px; background:#d5d5d7;}
+ 
+.txtstyle{width:200px; font-size:18px; valign="middle"}
+ 
+</style>
+</head>
+
+<body class="bodystyle">
+<div style="background-color:#FFFFFF;">
+	<div class="logo">
+	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	</div>
+</div>
+ 
+<div class="menu">
+	<ul class="ul1">
+    	<li class="li1"><a href="state.shtml">状态显示</a></li>
+        <li class="li1"><a href="control.shtml">布防控制</a></li>
+        <li class="li1"><a href="parameters.shtml">参数设置</a></li>
+        <li class="li1"><a href="log.shtml">日志</a></li>
+        <li class="li1"><a href="about.shtml">关于</a></li>
+        <li class="li1"><a href="index.shtml">登出</a></li>
+    </ul>
+</div>
+
+<div style="background-color:#0066CC;color:#fff;">
+	<h3  >
+	  <span >网络参数设置</span>
+	</h3>
+</div>
+
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "mac_0"><!--#m--></label>
+	<label id = "ip_0"><!--#i--></label>
+	<label id = "submask_0"><!--#s--></label>
+	<label id = "gateway_0"><!--#g--></label>
+	<label id = "field_s0d1_0"><!--#x--></label>
+	<label id = "shutdown_0"><!--#z--></label>
+</div>
+
+<div style="text-align:center;">
+
+   <table border="1" cellpadding="4" align="center">
+<tr>
+  <th width="200" align="right">MAC地址：</th>
+  <td width="200" ><input name="MAC" type="text" id="mac" class="txtstyle" readonly="true"/></td>
+</tr>   
+
+<tr>
+  <th width="200" align="right">IP&nbsp;地址：</th>
+  <td width="200"><input type="text" name="IP" id="ip" class="txtstyle"/></td>
+</tr>
+
+<tr>
+  <th width="200" align="right">子网掩码：</th>
+  <td width="200"><input type="text" name="SUBMASK" id="submask" class="txtstyle"/></td>
+</tr>
+
+<tr>
+  <th width="200" align="right">网&nbsp;&nbsp;关：</th>
+  <td width="200"><input type="text" name="GATEWAY" value="" id="gateway" class="txtstyle"/></td>
+</tr>
+</table>
+
+<input name="提交" onclick="setNetwork()" type="submit" value="提交" style="font-size:15px; margin:5px 30px 0px 0px;" />
+<input name="取消" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 0px 0px 30px;" />
+</div>
+
+<div style="background-color:#0066CC;color:#fff;">
+	<h3  >
+	  <span >设备时间设置</span>
+	</h3>
+</div>
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "datetime_0"><!--#d--></label>
+</div>
+
+<div style="text-align:center;">
+
+<table border="1" cellpadding="4" align="center">
+<tr>
+  <th width="200" align="right">设备时间：</th>
+  <td width="200" ><input name="DATETIME" type="text" id="datetime" class="txtstyle"/></td>
+</tr>
+</table>
+
+<input name="本机时间" onclick="localDateTime()" type="submit" value="本机时间" style="font-size:15px; margin:5px 20px 0px 30x;" />
+<input name="提交" onclick="setDateTime()" type="submit" value="提交" style="font-size:15px; margin:5px 20px 0px 30px;" />
+<input name="取消" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 20px 0px 30px;" />
+</div>
+
+<div style="background-color:#0066CC;color:#fff;">
+	<h3  >
+	  <span >开关量设置</span>
+	</h3>
+</div>
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "sw_0"><!--#r--></label>
+</div>
+
+<div style="text-align:center;">
+<table border="1" cellpadding="4" align="center">
+<tr>
+  <th width="200" align="right">开关量1：</th>
+  <td width="200" align="center"  bgcolor="#FFFFFF"><select name="swtype1" size="1" id="swtype1" class="txtstyle" >
+    <option value="0" selected="selected">无设备</option>
+    <option value="1">主动红外探测器</option>
+    <option value="2">被动红外探测器</option>
+    <option value="3">双鉴探测器</option>
+    <option value="4">环境探测器</option>
+    <option value="5">门磁</option>
+    <option value="6">紧急按钮</option>
+    <option value="7">水浸</option>
+    <option value="8">其他设备</option>
+  </select></td>
+</tr>
+<tr>
+  <th width="200" align="right">开关量2：</th>
+  <td width="200" align="center"  bgcolor="#FFFFFF"><select name="swtype2" size="1" id="swtype2" class="txtstyle" >
+    <option value="0" selected="selected">无设备</option>
+    <option value="1">主动红外探测器</option>
+    <option value="2">被动红外探测器</option>
+    <option value="3">双鉴探测器</option>
+    <option value="4">环境探测器</option>
+    <option value="5">门磁</option>
+    <option value="6">紧急按钮</option>
+    <option value="7">水浸</option>
+    <option value="8">其他设备</option>
+  </select></td>
+</tr>
+</table>
+
+<input name="提交" onclick="setSWType()" type="submit" value="提交" style="font-size:15px; margin:5px 20px 0px 30px;" />
+<input name="取消" onclick="cancel()" type="reset" value="取消" style="font-size:15px; margin:5px 20px 0px 30px;" />
+</div>
+
+<div style="background-color:#0066CC;color:#fff;margin-top:2px; ">
+	<h3  >
+	  <span >远程操作</span>	</h3>
+</div>
+<div style=" text-align:center;">
+	<input name="setPWMLevel" id="remote_shutdown" onclick="remote_shutdown()" type="submit" value="远程关机" style="font-size:15px; margin:0px 0px 0px 0px;" />
+</div>
+
+<div align="center" style="margin-top:20px;margin-bottom:20px;">
+
+</body>
+
+<script type="text/javascript">
+var shutdown_0_txt = document.getElementById("shutdown_0");
+shutdown_0_txt = shutdown_0_txt.innerHTML.substr(9);
+var shutdown_vals = Number(shutdown_0_txt);
+if(shutdown_vals == 1){
+	alert("设备已关机，请先进行远程开机!");
+	window.location="remotepower.shtml";
+}
+
+var field_s0d1_0_txt = document.getElementById("field_s0d1_0");
+if(field_s0d1_0_txt != null){
+	field_s0d1_0_txt = field_s0d1_0_txt.innerHTML.substr(9);
+	var field_s0d1_vals = Number(field_s0d1_0_txt);
+	document.getElementById('logo_img').src = (field_s0d1_vals & 0x01) == 0? "image/head_s.jpg" : "image/head_d.jpg";
+}
+
+var regip = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/;
+var regmac = /^(([0-9a-fA-F]{2})\:){5}([0-9a-fA-F]{2})$/;
+
+var regdt = /^([1-3][0-9]{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])\ ([0-1][0-9]|2[0-3])\:[0-5][0-9]\:[0-5][0-9])$/;
+
+var mac0_txt = document.getElementById("mac_0");
+var ip0_txt = document.getElementById("ip_0");
+var submask0_txt = document.getElementById("submask_0");
+var gateway0_txt = document.getElementById("gateway_0");
+
+var datetime0_txt = document.getElementById("datetime_0");
+
+var mac0_value = mac0_txt.innerHTML.substr(9);
+var ip0_value = ip0_txt.innerHTML.substr(9);
+var submask0_value = submask0_txt.innerHTML.substr(9);
+var gateway0_value = gateway0_txt.innerHTML.substr(9);
+
+var datetime0_txt = document.getElementById("datetime_0");
+
+document.getElementById("mac").value = mac0_value;
+document.getElementById("ip").value = ip0_value;
+document.getElementById("submask").value = submask0_value;
+document.getElementById("gateway").value = gateway0_value;
+
+document.getElementById("datetime").value = datetime0_txt.innerHTML.substr(9);
+
+var sw_txt = document.getElementById("sw_0");
+var sw_val = sw_txt.innerHTML.substr(9);
+var swValue = Number(sw_val);
+
+document.getElementById("swtype2").value = (swValue >> 8) & 0xff;
+document.getElementById("swtype1").value = swValue & 0xff;
+
+function validateIP(ip){
+	if(ip.match(regip) == null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function validateMac(mac){
+	if(mac.match(regmac) == null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function validateDT(date_time){
+	if(date_time.match(regdt) == null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
+function network_check(newMac, newIp, newMask, newGateway){
+	if(!validateMac(newMac)){
+		alert("MAC格式有误!");
+		return 0;
+	}else if(!validateIP(newIp)){
+		alert("IP格式有误!");
+		return 0;
+	}else if(!validateIP(newMask)){
+		alert("子网掩码格式有误!");
+		return 0;
+	}else if(!validateIP(newGateway)){
+		alert("网关格式有误!");
+		return 0;
+	}
+	return 1;
+}
+
+//function ipNoZero(ip){
+//	var re = /.0/g;
+//	var noZeroIP = ("." + ip).replace(re, ".").replace("...", ".0.").substring(1);
+//    return noZeroIP;
+//}
+
+var newIp = ip0_value;
+function setNetwork(){
+
+	var mac_txt = document.getElementById("mac");
+	//alert(mac_txt + "  " + mac_txt.innerHTML + "  " + mac_txt.value);
+	var ip_txt = document.getElementById("ip");
+	var submask_txt = document.getElementById("submask");
+	var gateway_txt = document.getElementById("gateway");
+		
+	var newMac = mac_txt.value;
+	newIp = ip_txt.value;
+	var newMask = submask_txt.value;
+	var newGateway = gateway_txt.value;
+	
+	if(network_check(newMac, newIp, newMask, newGateway) == 1){
+		var submitLink = "network.cgi?LAN=1"
+		
+		if(mac0_value != newMac){
+			submitLink += "&MAC=" + newMac;
+		}
+		if(ip0_value != newIp){
+			submitLink += "&IP=" + newIp;
+		}
+		if(submask0_value != newMask){
+			submitLink += "&SUBMASK=" + newMask;
+		}
+		if(gateway0_value != newGateway){
+			submitLink += "&GATEWEY=" + newGateway;
+		}
+		
+//		window.location="network.cgi?LAN=1&MAC="+ newMac + "&IP=" + newIp + "&SUBMASK=" + newMask + "&GATEWEY=" + newGateway;
+	
+		if(submitLink != "network.cgi?LAN=1"){
+			window.location=submitLink;
+			setTimeout("loginNewIp()", 1000);
+//			window.location = "http://" + ipNoZero(newIp);
+//			alert("网络参数修改成功，需重新登录，5秒后将自动跳转到登录界面！");
+		}
+	}else{
+		cancel();
+	}
+}
+
+
+function loginNewIp(){
+//	window.location = "http://" + formatIP(newIp);
+	
+	document.write(
+		"<div style=\"text-align: center;margin-top: 20px\">" + 
+    	"<div>网络参数修改成功，需重新登录，<span id=\"mes\"style=\"color: red\"> </span>秒自动跳转到登录界面，请稍后...</div>" + 
+		"</div>"+
+		
+		"<script type=\"text/javascript\">"+
+		"var count = 5; var intervalid; document.getElementById(\"mes\").innerHTML = count--;" +
+		"intervalid = setInterval(\"countDown()\", 1000);" + 
+		"function countDown() {" + 
+		"		if (count == 0) {" +
+		"     clearInterval(intervalid);" +
+		"			window.location =\"http://" + formatIP(newIp) + "\";"+
+		"   }" +
+		"   document.getElementById(\"mes\").innerHTML = count--;" + 
+		"}</\script>"
+	);
+}
+
+function formatIP(ip){
+    var ipAry = ip.split(".");
+    var ipRtn = Number(ipAry[0]).toString();
+    for(var i = 1;i< 4;i++){
+        ipRtn += "." + Number(ipAry[i]).toString();
+    }
+    return ipRtn;
+}
+
+function cancel(){
+	window.location="parameters.shtml";
+}
+
+function date_time_check(date_time){
+	if(!validateDT(date_time)){
+		alert("设备时间格式有误!");
+		cancel();
+		return 0;
+	}
+	return 1;
+}
+
+function localDateTime(){
+	var now = new Date();
+   
+	var year = now.getFullYear();       //年
+	var month = now.getMonth() + 1;     //月
+	var day = now.getDate();            //日
+   
+	var hh = now.getHours();            //时
+	var mm = now.getMinutes();          //分
+	var ss = now.getSeconds();          //秒
+   
+	var clock = year + "-";
+	if(month < 10)
+		clock += "0";
+	clock += month + "-";
+	if(day < 10)
+		clock += "0";
+	clock += day + " ";
+	if(hh < 10)
+		clock += "0";
+	clock += hh + ":";
+	if (mm < 10) clock += '0'; 
+	clock += mm + ":";
+	if (ss < 10) clock += '0'; 
+	clock += ss;
+	
+	document.getElementById("datetime").value = clock;
+}
+
+function setDateTime(){
+
+	var date_time_txt = document.getElementById("datetime");
+	
+	var newDateTime = date_time_txt.value;
+
+	var dt = newDateTime.split(" ");
+	if(date_time_check(newDateTime) == 1){
+		addCookie("operate_msg", "设备时间设置成功!", 0);
+		addCookie("timeout", 0);
+		window.location="datatime.cgi?DATE="+ dt[0] + "&TIME="+ dt[1];
+		// alert("设备时间设置成功!");
+		// window.location="parameters.shtml";
+	}else{
+		cancel();
+	}
+}
+
+function setSWType(){
+	var swty2 = document.getElementById('swtype2').value;
+	var swty1 = document.getElementById('swtype1').value;
+	
+	var swTypeVal = Number(swty2);
+	swTypeVal = (swTypeVal << 8) | Number(swty1);
+//	alert("pwmLevel:" + pwmLevel);
+
+	addCookie("operate_msg", "开关量设置成功！", 0);
+	addCookie("timeout", 0);
+	window.location="switch.cgi?SWITCH="+ swTypeVal;
+	// alert("开关量设置成功！");
+	// window.location="parameters.shtml";
+}
+
+
+function remote_shutdown(){
+	var cfmVar = window.confirm("确定要进行\"远程关机\"操作吗？");
+	if (cfmVar) {
+		addCookie("operate_msg", "远程关机成功!", 0);
+		addCookie("timeout", 0);
+		addCookie("remote_shutdown", 1);
+		window.location="shutdown.cgi?shutdown=1";
+	}
+}
+
+</script>
+
+</html>

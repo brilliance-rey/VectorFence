@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>张力围栏主机</title>
+<script src="./common.js"></script>
+
+<style type="text/css">
+
+.ul1{margin:0;padding:0; list-style:none;}
+.li1{margin:0;padding:0; list-style:none;}
+.menu{width:1000px;height:40px;margin:0 auto; background:url(image/tab.jpg) repeat-x; }
+.menu ul{width:1000px;float:left;height:40px;display:inline;}
+.menu ul li{width:166px;height:40px; line-height:40px; text-align:center; float:left;display:inline; }
+.menu ul li a{width:166px;height:40px; float:left;text-decoration:none; color:#fff; font-size:18px;font-weight:bold;}
+.menu ul li a:hover{ background:#FF0000 repeat-x; }		
+
+.logo{}
+.bodystyle{  margin:0 auto; width:1000px; background:#d5d5d7;}
+ 
+.txtstyle{width:200px; font-size:18px; valign="middle"}
+ 
+</style>
+</head>
+
+<body class="bodystyle">
+<div style="background-color:#FFFFFF;">
+	<div class="logo">
+	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	</div>
+</div>
+ 
+<div class="menu">
+	<ul class="ul1">
+    	<li class="li1"><a href="state.shtml">状态显示</a></li>
+        <li class="li1"><a href="control.shtml">布防控制</a></li>
+        <li class="li1"><a href="parameters.shtml">参数设置</a></li>
+        <li class="li1"><a href="log.shtml">日志</a></li>
+        <li class="li1"><a href="about.shtml">关于</a></li>
+        <li class="li1"><a href="index.shtml">登出</a></li>
+    </ul>
+</div>
+	
+
+<div id = "contactus_title" style="background-color:#0066CC;color:#fff;margin-top:5px; ">
+	<h3  >
+	  <span >联系我们</span>
+	</h3>
+</div>
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "hwVer_0"><!--#h--></label>
+	<label id = "sfVer_0"><!--#v--></label>
+	<label id = "field_s0d1_0"><!--#x--></label>
+	<label id = "shutdown_0"><!--#z--></label>
+	<label id = "cofigcode_0"><!--#b--></label>
+</div>
+
+
+<table id = "contactus_content" width="999" border="1" cellpadding="4">
+  <tr>
+    <th width="150" align="right" scope="row">地址：</th>
+    <td width="850">北京市通州区潞苑南大街运通花园106-2</td>
+  </tr>
+    <tr>
+    <th width="150" align="right" scope="row">邮编：</th>
+    <td width="850">101100</td>
+  </tr>  <tr>
+    <th width="150" align="right" scope="row">总机：</th>
+    <td width="850">010-69553972</td>
+  </tr>  <tr>
+    <th width="150" align="right" scope="row">手机：</th>
+    <td width="850">18500676210</td>
+  </tr>  <tr>
+    <th width="150" align="right" scope="row">联系人：</th>
+    <td width="850">翟经理</td>
+  </tr><tr>
+    <th width="150" align="right" scope="row">微信号：</th>
+    <td width="850">A18500676210</td>
+  </tr><tr>
+    <th width="150" align="right" scope="row">网站：</th>
+    <td width="850"><a href="http://www.xinqinlin.com">www.xinqinlin.com</a></td>
+  </tr>
+</table>
+
+
+<div style="background-color:#0066CC;color:#fff;margin-top:5px; ">
+	<h3  >
+	  <span >系统信息</span>
+	</h3>
+</div>
+
+<table width="999" border="1" cellpadding="4">
+  <tr>
+    <th width="150" align="right" scope="row">硬件版本：</th>
+    <td width="850" id="hwver"></td>
+  </tr>
+  <tr>
+    <th width="150" align="right" scope="row">软件版本：</th>
+    <td width="850" id="sfver"></td>
+  </tr>
+  <tr>
+    <th width="150" align="right" scope="row">本机配置：</th>
+    <td width="850" id="confInf"></td>
+</tr>
+</table>
+
+<div align="center"></div>
+
+<div align="center" style="margin-top:20px;margin-bottom:30px;">
+
+</div>
+</body>
+
+<script type="text/javascript">
+var shutdown_0_txt = document.getElementById("shutdown_0");
+shutdown_0_txt = shutdown_0_txt.innerHTML.substr(9);
+var shutdown_vals = Number(shutdown_0_txt);
+if(shutdown_vals == 1){
+	alert("设备已关机，请先进行远程开机!");
+	window.location="remotepower.shtml";
+}
+
+var cofigcode_0_txt = document.getElementById("cofigcode_0");
+cofigcode_0_txt = cofigcode_0_txt.innerHTML.substr(9);
+var cofigcode = Number(cofigcode_0_txt);
+
+if(cofigcode & 0x01 == 0x01){
+	document.getElementById("contactus_title").style.display = "display";
+	document.getElementById("contactus_content").style.display = "display";
+}else{
+	document.getElementById("contactus_title").style.display = "none";
+	document.getElementById("contactus_content").style.display = "none";
+}
+
+var field_s0d1_0_txt = document.getElementById("field_s0d1_0");
+if(field_s0d1_0_txt != null){
+	field_s0d1_0_txt = field_s0d1_0_txt.innerHTML.substr(9);
+	var field_s0d1_vals = Number(field_s0d1_0_txt);
+	document.getElementById('logo_img').src = (field_s0d1_vals & 0x01) == 0? "image/head_s.jpg" : "image/head_d.jpg";
+
+	document.getElementById("confInf").innerHTML = ((field_s0d1_vals & 0x01) == 0? "双" : "单")+ "防区" + ((field_s0d1_vals & 0x02) == 0? "四" : "六") + "线";
+}
+var hwVer_0_txt = document.getElementById("hwVer_0");
+var sfVer_0_txt = document.getElementById("sfVer_0");
+//hwVer_0_txt = "<!--#hv-->" + "0.1";
+//sfVer_0_txt = "<!--#sv-->" + "00.01";
+
+if(hwVer_0_txt != null){
+	document.getElementById("hwver").innerHTML = hwVer_0_txt.innerHTML.substr(9);
+}
+	
+if(sfVer_0_txt != null){
+	document.getElementById("sfver").innerHTML = sfVer_0_txt.innerHTML.substr(9);
+}
+
+
+</script>
+
+</html>

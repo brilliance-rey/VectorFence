@@ -1,0 +1,5 @@
+/OBJ/*.crf
+/OBJ/*.d
+/OBJ/*.o
+~*
+*.tmp

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>张力围栏主机</title>
+<script src="./common.js"></script>
+</head>
+
+<body>
+
+<div style="width:1000px; height:0px; display :none">
+	<label id = "log_type_0"><!--#y--></label>
+	<label id = "log_0"><!--#l--></label>
+	<label id = "page_num_0"><!--#n--></label>
+	<label id = "page_total_0"><!--#t--></label>
+</div>
+
+<div style="text-align: center; margin-top: 20px; color: red">
+	<div><span id="msg" style="color: red"></span></div>
+</div>
+
+<script type="text/javascript">
+
+var logTypeName = ["B防区断路告警","B防区短路告警","A防区断路告警","A防区短路告警","防拆告警"];
+
+var log_type_0_txt = document.getElementById("log_type_0");
+var log_0_txt = document.getElementById("log_0");
+var page_num_0_txt = document.getElementById("page_num_0");
+var page_total_0_txt = document.getElementById("page_total_0");
+
+var log_type = log_type_0_txt.innerHTML.substr(9);
+var crt_log = log_0_txt.innerHTML.substr(9);
+var page_num = page_num_0_txt.innerHTML.substr(9);
+var page_total = page_total_0_txt.innerHTML.substr(9);
+
+//var crt_log = "2018-04-05 08:00:04#2018-04-05 08:00:04#2018-04-05 08:00:04#2018-04-05 08:00:04#";
+crt_log = crt_log.replace(//g, ":");  //last log has the "", such as: 2018-04-05 08\00:04
+//alert("crt_log: " + crt_log);
+crt_log = crt_log.replace(new RegExp("#", "gm"), "\r\n");
+if(page_num == 1){
+	crt_log = logTypeName[log_type] + ":\r\n" + crt_log;
+}
+//crt_log_ck[log_type][parseInt(page_num/15)] += crt_log;
+//addCookie("crt_log_ck_" + log_type + "_" + parseInt(page_num/15), crt_log_ck[log_type][parseInt(page_num/15)]);
+var crt_log_storage = window.localStorage.getItem("crt_log_storage");
+if(crt_log_storage == null){
+	crt_log_storage = "";
+}
+crt_log_storage += crt_log;
+window.localStorage.setItem("crt_log_storage", crt_log_storage);
+document.getElementById("msg").innerHTML = "正在导出[" + logTypeName[log_type] + "]的日志，已完成" + parseInt(page_num * 100/page_total) + "%。";
+
+//var logOrder = [4,2,3,0,1];
+var nextLogType =  [1,-1,3,0,2];
+if(page_num == page_total){  //
+	if(1 == log_type){  //结束
+		window.location = "logexport.html";
+	}else{
+		addCookie("rtn_url", "logexporting.shtml");
+		window.location = "log.cgi?LOGTYPE=" + nextLogType[log_type];
+	}
+}else{
+	addCookie("rtn_url", "logexporting.shtml");
+	setTimeout("window.location = 'log.cgi?GETLOG=1';", 10);  //下一页
+}
+
+//function reload() { 
+//	window.location = rtn_url_ck;
+//}
+
+</script>
+
+</body>
+
+</html>
