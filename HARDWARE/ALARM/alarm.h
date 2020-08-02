@@ -3,13 +3,16 @@
 #include "sys.h"
 #include "includes.h" 
 
+//1：单防区， 2：双防区
+#define FIELD_COUNT	1
+
 //告警确认时间，秒，防拆固定3s
 #define ALARM_VERIFY_COUNT	2
 
 //松弛确认时间, 单位：S
 #define RELAX_VERIFIED_TIME_S	2
 
-//标识为断线的最大值拉力值, 拉力低于此值为断线。单位 0.1Kg，
+//标识为偏移的最大值拉力值, 拉力低于此值为偏移。单位 0.1Kg，
 #define OPEN_VAL_MAX_KG		10
 
 //满量程， 单位：0.1Kg
@@ -27,7 +30,7 @@
 	PE1（PIN_98）	O	RL_A	A防区告警开关量
 */
 #define RL_A    PEout(1)
-#define RL_B    PEout(0)
+//#define RL_B    PEout(0)
 
 /**
 	防拆检测
@@ -167,11 +170,11 @@ void Push_B_Stop(void);
 
 /**
  * ADC_Check_Handler之前多次检测。
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void ADC_Check(u8 field_index);
+void ADC_Check(u8 axix_index);
 
-void ADC_Check_Handler(u8 field_index);
+void ADC_Check_Handler(u8 axix_index);
 
 /**SW告警标记：0：OK, 1:Alarm*/
 extern u8 SW_Alarm[2];
@@ -211,17 +214,17 @@ void setAlarmDelay(u8 i, u16 almDly);
 
 /**
  * 设置告警灵敏度
- * field_index: 防区序号： 0：A防区， 1：B防区
+ * axix_index: 防区序号： 0：A防区， 1：B防区
  * sensitivity 灵敏度，1-10： 0.5-5s
  */
-void setAlarmSensitivity(u8 field_index, u8 sensitivity);
+void setAlarmSensitivity(u8 axix_index, u8 sensitivity);
 
 /**
  * 设置拉力监控范围有效值。
- * field_index: 防区序号： 0：A防区， 1：B防区
+ * axix_index: 防区序号： 0：A防区， 1：B防区
  * highLowFlag: 0：下限值， 1：上限值
  */
-void setTenValRange(u8 field_index, u8 highLowFlag, u16 tenVal);
+void setTenValRange(u8 axix_index, u8 highLowFlag, u16 tenVal);
 
 /**
  * 修改防区号

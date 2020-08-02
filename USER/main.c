@@ -1650,7 +1650,7 @@ void main_task(void *pdata)
 										Display_8x16(LeftScreen,row_point * 2,4,arrows,DISPLAY_POSITIVE);
 										current_screen = ClearDuanLuAlarmRecordScreen;//清除短路告警记录显示屏
 										break;
-									case 2://断线告警
+									case 2://偏移告警
 										row_point = 1;//行指针指向第二行
 										DisplayClearDuanXianAlarmRecord();
 										Display_8x16(LeftScreen,row_point * 2,4,arrows,DISPLAY_POSITIVE);

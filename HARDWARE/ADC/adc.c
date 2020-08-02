@@ -23,7 +23,7 @@ s16 crt_smp[2][6];
 //A(0),B(1)防区当前值(6线)， KG
 s16 crt_val[2][6];
 
-//正在校准标记：bit7-bit4(0:校准zero, 1:校准基准值)，bit3-bit0(0:A防区， 1:B防区)，要同步到其他模块（web端等），校准时不能监控操作。 默认为：0xFF
+//正在校准标记：bit7-bit4(0:校准zero, 1:校准基准值)，bit3-bit0(0:X轴， 1:Y轴)，要同步到其他模块（web端等），校准时不能监控操作。 默认为：0xFF
 u8 calibrating_flag = 0xFF;
 
 u8 calibrate_en[2];
@@ -52,9 +52,9 @@ void Adc_Init(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); //使能ADC1时钟
 
 	//	ADC检测
-	//	PC2（PIN_17）	I	ADC_A_Chn	A防区电压监测     			通道12
-	//	PC0（PIN_15）	I	ADC_B_Chn	B防区电压监测			通道10
-	//	PC3（PIN_18）	I	ADC_AB_Chn	六线时A/B防区电压监测		通道13
+	//	PC2（PIN_17）	I	ADC_A_Chn	X轴电压监测     			通道12
+	//	PC0（PIN_15）	I	ADC_B_Chn	Y轴电压监测			通道10
+	//	PC3（PIN_18）	I	ADC_AB_Chn	六线时X/Y轴电压监测		通道13
 	//先初始化ADC1通道IO口
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_0 | GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN; //模拟输入
@@ -62,7 +62,7 @@ void Adc_Init(void)
 	GPIO_Init(GPIOC, &GPIO_InitStructure); //初始化
 
 	//	ADC转换通道选择：
-	//		PC8（PIN_65）	O	ADC_CTRL0	四线制时选通A和B防区某一路作为输出
+	//		PC8（PIN_65）	O	ADC_CTRL0	四线制时选通A和Y轴某一路作为输出
 	//		PC9（PIN_66）	O	ADC_CTRL1
 	//		PA8（PIN_67）	O	ADC_CTRL2	六线制时选通A或B各剩余两路某一路作为输出
 	//		PA9（PIN_68）	O	ADC_CTRL3
@@ -106,19 +106,19 @@ void Adc_Init(void)
 
 	for (i = 0; i < 2; i++)
 	{
-		ReadAdcZeroFromEEProm(i);
-		if ((zero_val[i][0] & 0xffff) == 0xffff)
-		{
-			mymemset(zero_val[i], 0, sizeof(zero_val[i]));
-			WriteAdcZeroToEEProm(i);
-		}
-
-		ReadAdcBaseFromEEProm(i);
-		if ((base_val[i][0] & 0xffff) == 0xffff)
-		{
-			mymemset(base_val[i], 0, sizeof(base_val[i]));
-			WriteAdcBaseToEEProm(i);
-		}
+//		ReadAdcZeroFromEEProm(i);
+//		if ((zero_val[i][0] & 0xffff) == 0xffff)
+//		{
+//			mymemset(zero_val[i], 0, sizeof(zero_val[i]));
+//			WriteAdcZeroToEEProm(i);
+//		}
+//
+//		ReadAdcBaseFromEEProm(i);
+//		if ((base_val[i][0] & 0xffff) == 0xffff)
+//		{
+//			mymemset(base_val[i], 0, sizeof(base_val[i]));
+//			WriteAdcBaseToEEProm(i);
+//		}
 		calibrate_en[i] = 1;
 	}
 
@@ -136,8 +136,6 @@ void Adc_Init(void)
 		base_auto_calibrate_time = 30;
 		WriteBaseAutoCalibrateTimeToEEProm();
 	}
-
-
 	init_done = 1;
 }
 
@@ -206,7 +204,7 @@ u16 Get_Adc_Average_Def(u8 ch)
 }
 
 /**
- * A防区ADC检测使能， 参考<<Detection.pdf>>
+ * X轴ADC检测使能， 参考<<Detection.pdf>>
  * line_inde: 线序号（四线：0-3, 六线：0-5）
  */
 void A_ADC_CK_EN(u8 line_index)
@@ -255,7 +253,7 @@ void A_ADC_CK_EN(u8 line_index)
 }
 
 /**
- * B防区ADC检测使能， 参考<<Detection.pdf>>
+ * Y轴ADC检测使能， 参考<<Detection.pdf>>
  * line_inde: 线序号（四线：0-3, 六线：0-5）
  */
 void B_ADC_CK_EN(u8 line_index)
@@ -305,10 +303,10 @@ void B_ADC_CK_EN(u8 line_index)
 
 /**
  * 获取采样Adc原始值，未修正的值，即未减去零点值。
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  * times：取平均值的采样次数，0：是为默认值（ADC_TIME_DEFAULT次）
  */
-void sampleAdc(u8 field_index, u16 times)
+void sampleAdc(u8 axix_index, u16 times)
 {
 	s32 temp_val[6] = { 0 };
 	u8 t, i = 0;
@@ -322,11 +320,11 @@ void sampleAdc(u8 field_index, u16 times)
 	//多次采样取平均值
 	for (t = 0; t < times; t++)
 	{
-		//每次采样A,B两路的值，
+		//每次采样X,Y两路的值，
 		for (i = 0; i < line_count; i++)
 		{
-			//采样A防区的值
-			if(0 == field_index){
+			//采样X轴的值
+			if(0 == axix_index){
 				A_ADC_CK_EN(i);
 				if (i < 4)	//4线
 				{
@@ -337,8 +335,8 @@ void sampleAdc(u8 field_index, u16 times)
 					temp_val[i] += Get_Adc(ADC_AB_Chn);
 				}
 			}
-			//采样B防区的值
-			else if(1 == field_index){
+			//采样Y轴的值
+			else if(1 == axix_index){
 				B_ADC_CK_EN(i);
 				if (i < 4)  //4线
 				{
@@ -356,33 +354,37 @@ void sampleAdc(u8 field_index, u16 times)
 	//获取计算后的实际KG值
 	for (i = 0; i < line_count; i++)
 	{
-		crt_smp[field_index][i] = (u16) ((temp_val[i] / times) * tension_max_range / 4096);
+		crt_smp[axix_index][i] = (u16) ((temp_val[i] / times) * tension_max_range / 4096);
 	}
 }
 
 /**
- * 更新零点值，
- * field_index: 0:A防区， 1:B防区
+ * 更新零点值， ，预留
+ * axix_index: 0:X轴， 1:Y轴
  */
-void updateZeroVal(u8 field_index)
+void updateZeroVal(u8 axix_index)
 {
-	calibrating_flag = 0x00 | field_index;
+	calibrating_flag = 0x00 | axix_index;
 }
 
+
+/**
+ * 校准
+ */
 void calibrating(void)
 {
 	u8 i = 0;
-	u8 line_count = 0;
-	u8 field_index = 0;
+	u8 line_count = 6;
+	u8 axix_index = 0;
 
 	if (calibrating_flag == 0xFF)
 	{
 		return;
 	}
 
-	line_count = (W4_W6 == IS_W4 ? 4 : 6);
-	field_index = calibrating_flag & 0x01;
-	
+//	line_count = (W4_W6 == IS_W4 ? 4 : 6);
+	axix_index = calibrating_flag & 0x01;
+
 	//校验完成。。。，计算结果
 	if ((calibrating_flag & 0x80) == 0x80)
 	{
@@ -392,9 +394,9 @@ void calibrating(void)
 			for (i = 0; i < line_count; i++)
 			{
 				//求平均值
-				zero_val[field_index][i] = (calibrate_temp_val[i] / calibrate_adc_cnt);
+				zero_val[axix_index][i] = (calibrate_temp_val[i] / calibrate_adc_cnt);
 			}
-			WriteAdcZeroToEEProm(field_index);
+			WriteAdcZeroToEEProm(axix_index);
 		}
 		//base
 		if ((calibrating_flag & 0x10) == 0x10)
@@ -402,12 +404,12 @@ void calibrating(void)
 			for (i = 0; i < line_count; i++)
 			{
 				//求平均值, 减去零点值得实际KG值
-				base_val[field_index][i] = (s16)((calibrate_temp_val[i] / calibrate_adc_cnt) - zero_val[field_index][i]);
-				if(base_val[field_index][i] < 0){
-					base_val[field_index][i] = 0;
+				base_val[axix_index][i] = (s16)((calibrate_temp_val[i] / calibrate_adc_cnt) - zero_val[axix_index][i]);
+				if(base_val[axix_index][i] < 0){
+					base_val[axix_index][i] = 0;
 				}
 			}
-			WriteAdcBaseToEEProm(field_index);
+			WriteAdcBaseToEEProm(axix_index);
 		}
 
 		calibrate_adc_cnt = 0;
@@ -417,49 +419,49 @@ void calibrating(void)
 		return;
 	}
 	//采样
-	sampleAdc(field_index, 0);
+	sampleAdc(axix_index, 0);
 	//连续累加
 	for (i = 0; i < line_count; i++)
 	{
-		calibrate_temp_val[i] += crt_smp[field_index][i];
+		calibrate_temp_val[i] += crt_smp[axix_index][i];
 	}
 	calibrate_adc_cnt++;
 }
 
 /**
- * 更新基准值.
- * field_index: 0:A防区， 1:B防区
+ * 更新基准值. ，预留
+ * axix_index: 0:X轴， 1:Y轴
  */
-void updateBaseVal(u8 field_index)
+void updateBaseVal(u8 axix_index)
 {
-	calibrating_flag = 0x10 | field_index;
+	calibrating_flag = 0x10 | axix_index;
 }
 
 /**
- *  更新A,B防区当前采样值的修正值（减去零点值）
- * field_index: 0:A防区， 1:B防区
+ *  更新X,Y轴当前采样值的修正值（减去零点值）
+ * axis_index: 0:X轴， 1:Y轴
  */
-void updateCrtSmp(u8 field_index)
+void updateCrtSmp(u8 axix_index)
 {
 	u8 i;
-	u8 line_count = (W4_W6 == IS_W4 ? 4 : 6);
+	u8 line_count = 6;
 	if(calibrating_flag == 0xff){
-		sampleAdc(field_index, 0);
-		calibrate_en[field_index] = 1;
+		sampleAdc(axix_index, 0);
+		calibrate_en[axix_index] = 1;
 		for (i = 0; i < line_count; i++)
 		{
 	//获取计算后的实际KG值
-			crt_val[field_index][i] = (s16)(crt_smp[field_index][i] - zero_val[field_index][i]);
-			if(crt_val[field_index][i] < 0){
-				crt_val[field_index][i] = 0;
+			crt_val[axix_index][i] = (s16)(crt_smp[axix_index][i] - zero_val[axix_index][i]);
+			if(crt_val[axix_index][i] < 0){
+				crt_val[axix_index][i] = 0;
 			}
 
-//			if(crt_val[field_index][i] < ten_val_range[field_index][0] || crt_val[field_index][i] > ten_val_range[field_index][1]){
-//				calibrate_en[field_index] = 0;
+//			if(crt_val[axix_index][i] < ten_val_range[axix_index][0] || crt_val[axix_index][i] > ten_val_range[axix_index][1]){
+//				calibrate_en[axix_index] = 0;
 //			}
 //			//有效范围修改为2Kg - maxKg
-//			if(crt_val[field_index][i] < 20 || crt_val[field_index][i] > tension_max_range){
-//				calibrate_en[field_index] = 0;
+//			if(crt_val[axix_index][i] < 20 || crt_val[axix_index][i] > tension_max_range){
+//				calibrate_en[axix_index] = 0;
 //			}
 		}
 	}
@@ -471,13 +473,17 @@ void updateCrtSmp(u8 field_index)
  */
 void getWebAdcValStr(char *adcWebStr)
 {
-	sprintf((char*) adcWebStr, "%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d@%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d@%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d",
+	sprintf((char*) adcWebStr, "%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d",
+//			"@%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d@%d+%d+%d+%d+%d+%d#%d+%d+%d+%d+%d+%d",
 			crt_val[0][0], crt_val[0][1], crt_val[0][2], crt_val[0][3], crt_val[0][4], crt_val[0][5], crt_val[1][0], crt_val[1][1], crt_val[1][2], crt_val[1][3], crt_val[1][4], crt_val[1][5],
-			zero_val[0][0], zero_val[0][1], zero_val[0][2], zero_val[0][3], zero_val[0][4], zero_val[0][5], zero_val[1][0], zero_val[1][1], zero_val[1][2], zero_val[1][3], zero_val[1][4], zero_val[1][5],
-			base_val[0][0], base_val[0][1], base_val[0][2], base_val[0][3], base_val[0][4], base_val[0][5], base_val[1][0], base_val[1][1], base_val[1][2], base_val[1][3], base_val[1][4], base_val[1][5]);
+//			zero_val[0][0], zero_val[0][1], zero_val[0][2], zero_val[0][3], zero_val[0][4], zero_val[0][5], zero_val[1][0], zero_val[1][1], zero_val[1][2], zero_val[1][3], zero_val[1][4], zero_val[1][5],
+//			base_val[0][0], base_val[0][1], base_val[0][2], base_val[0][3], base_val[0][4], base_val[0][5], base_val[1][0], base_val[1][1], base_val[1][2], base_val[1][3], base_val[1][4], base_val[1][5]
+	);
 }
 
-
+/**
+ * 设置自动校准时间，预留
+ */
 void setBaseAutoCalibrateTime(u16 value){
 	base_auto_calibrate_time = value;
 	WriteBaseAutoCalibrateTimeToEEProm();

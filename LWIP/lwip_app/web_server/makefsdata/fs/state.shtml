@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- <meta http-equiv="refresh" content="3"> -->
-<title>张力围栏主机</title>
+<title>矢量围栏主机</title>
 
 <script type="text/javascript" src="./jquery_1.2.3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="./jquery_confirm_ery.css" />
@@ -32,7 +32,7 @@
 <body class="bodystyle">
 <div style="background-color:#FFFFFF;">
 	<div class="logo">
-	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	 <img id = "logo_img" src="image/head_s.jpg" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
 	</div>
 </div>
  
@@ -71,43 +71,83 @@
   <td width="230px" align="center" bgcolor="#FFFFFF" id="fc_en"><img src="image/gray_20.gif"/></td>
   <th width="245px" align="center"><strong>防拆告警</strong></th>
   <td width="230px" align="center" bgcolor="#FFFFFF" id="fangchai"><img src="image/gray_20.gif"/></td>
+  <th width="245px" align="center"><strong>布防开关</strong></th>
+  <td width="230px" align="center" bgcolor="#FFFFFF" id="fc_en"><img src="image/gray_20.gif"/></td>
+  <th width="245px" align="center"><strong>防区告警</strong></th>
+  <td width="230px" align="center" bgcolor="#FFFFFF" id="fangchai"><img src="image/gray_20.gif"/></td>
 </tr>
 </table>
 </div>
 <div align="center">
 <table border="1" cellpadding="3">
 <tr>
-  <th width="100px" align="center" id = "field_0" style = "color: black"><strong>防 区</strong></th>
-  <th width="100px" align="center"><strong>布防开关</strong></th>
-  <th width="80px" align="center"><strong>断&nbsp;&nbsp;线</strong></th>
-  <th width="80px" align="center"><strong>入&nbsp;&nbsp;侵</strong></th>
-  <th width="80px" align="center"><strong>松&nbsp;&nbsp;弛</strong></th>
-  <th width="170px" align="center" id="adc_th"><strong>拉力(Kg)</strong></th>
-  <th width="170px" align="center" id="zero_th"><strong>零点值</strong></th>
-  <th width="170px" align="center" id="base_th"><strong>基准值</strong></th>
+  <th width="100px" align="center"><strong>线&nbsp;&nbsp;序</strong></th>
+  <th width="300px" align="center"><strong>告&nbsp;&nbsp;警</strong></th>
+  <th width="300px" align="center"><strong>调&nbsp;&nbsp;校</strong></th>
+  <th width="300px" align="center" id="adc_th"><strong>偏移值</strong></th>
 </tr>
-<tr>
-  <th width="100px" align="center"><strong>A防区</strong></th>
-  <td width="100px" align="center" bgcolor="#FFFFFF" id="a_bufang"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="a_open"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="a_invade"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="a_relax"><img src="image/gray_20.gif" /></td>
-  <td width="170px" align="center" bgcolor="#FFFFFF" id="a_adc"></td>
-  <td width="170px" align="center" id="zero_td_a"><label id = "zero_val_0"></label><input name="zero_reset_0" onclick="zeroReset(0)" type="submit" value="零点值校准" id="zero_reset_0" style="font-size:15px;"/></td>
-  <td width="170px" align="center" id="base_td_a"><label id = "base_val_0"></label><input name="base_reset_0" onclick="baseReset(0)" type="submit" value="基准值校准" id="base_reset_0" style="font-size:15px;"/></td>
 
-</tr>
-<tr>
-  <th width="100px" align="center" id = "field_1" style = "color: black"><strong>B防区</strong></th>
-  <td width="100px" align="center" bgcolor="#FFFFFF" id="b_bufang"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="b_open"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="b_invade"><img src="image/gray_20.gif" /></td>
-  <td width="80px" align="center" bgcolor="#FFFFFF" id="b_relax"><img src="image/gray_20.gif" /></td>
+<script type="text/javascript">
+var line_num = 6;
+var htmlstr;
+for(var i = 1; i <= line_num; i++){
+	htmlstr="<tr><th width='100px' align='center'><strong>" + i + "</strong></th>"
+		+"<td width='300px' align='center' bgcolor='#FFFFFF' id='a_invade'><img src='image/gray_20.gif' /></td>"
+		+"<td width='300px' align='center' bgcolor='#FFFFFF' id='a_open'><img src='image/gray_20.gif' /></td>"
+		+"<td width='300px' align='center' bgcolor='#FFFFFF' id='a_adc'></td></tr>";
+  	document.write(htmlstr);
+}
+</script>
+
+<!-- <tr>
+  <th width="100px" align="center"><strong>1</strong></th>
+  <td width="300px" align="center" bgcolor="#FFFFFF" id="a_invade"><img src="image/gray_20.gif" /></td>
+  <td width="300px" align="center" bgcolor="#FFFFFF" id="a_open"><img src="image/gray_20.gif" /></td>
+  <td width="300px" align="center" bgcolor="#FFFFFF" id="a_adc"></td>
+</tr> -->
+
+<tr style="display :none" ><!-- 矢量围栏单防区，隐藏掉B防区 -->
+  <td width="140px" align="center" bgcolor="#FFFFFF" id="b_bufang"><img src="image/gray_20.gif" /></td>
+  <td width="150px" align="center" bgcolor="#FFFFFF" id="b_invade"><img src="image/gray_20.gif" /></td>
+  <td width="150px" align="center" bgcolor="#FFFFFF" id="b_open"><img src="image/gray_20.gif" /></td>
   <td width="170px" align="center" bgcolor="#FFFFFF" id="b_adc"></td>
   <td width="170px" align="center" id="zero_td_b"><label id = "zero_val_1"></label><input name="zero_reset_1" onclick="zeroReset(1)" type="submit" value="零点值校准" id="zero_reset_1" style="font-size:15px;"/></td>
   <td width="170px" align="center" id="base_td_b"><label id = "base_val_1"></label><input name="base_reset_1" onclick="baseReset(1)" type="submit" value="基准值校准" id="base_reset_1" style="font-size:15px;"/></td>
+</tr>
+
+<!-- 注释掉
+<tr>
+<th width="100px" align="center" id = "field_0" style = "color: black"><strong>防 区</strong></th>
+<th width="100px" align="center"><strong>布防开关</strong></th>
+<th width="80px" align="center"><strong>偏&nbsp;&nbsp;移</strong></th>
+<th width="80px" align="center"><strong>入&nbsp;&nbsp;侵</strong></th>
+<th width="80px" align="center"><strong>松&nbsp;&nbsp;弛</strong></th>
+<th width="170px" align="center" id="adc_th"><strong>拉力(Kg)</strong></th>
+<th width="170px" align="center" id="zero_th"><strong>零点值</strong></th>
+<th width="170px" align="center" id="base_th"><strong>基准值</strong></th>
+</tr>
+<tr>
+<th width="100px" align="center"><strong>A防区</strong></th>
+<td width="100px" align="center" bgcolor="#FFFFFF" id="a_bufang"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="a_open"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="a_invade"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="a_relax"><img src="image/gray_20.gif" /></td>
+<td width="170px" align="center" bgcolor="#FFFFFF" id="a_adc"></td>
+<td width="170px" align="center" id="zero_td_a"><label id = "zero_val_0"></label><input name="zero_reset_0" onclick="zeroReset(0)" type="submit" value="零点值校准" id="zero_reset_0" style="font-size:15px;"/></td>
+<td width="170px" align="center" id="base_td_a"><label id = "base_val_0"></label><input name="base_reset_0" onclick="baseReset(0)" type="submit" value="基准值校准" id="base_reset_0" style="font-size:15px;"/></td>
 
 </tr>
+<tr>
+<th width="100px" align="center" id = "field_1" style = "color: black"><strong>B防区</strong></th>
+<td width="100px" align="center" bgcolor="#FFFFFF" id="b_bufang"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="b_open"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="b_invade"><img src="image/gray_20.gif" /></td>
+<td width="80px" align="center" bgcolor="#FFFFFF" id="b_relax"><img src="image/gray_20.gif" /></td>
+<td width="170px" align="center" bgcolor="#FFFFFF" id="b_adc"></td>
+<td width="170px" align="center" id="zero_td_b"><label id = "zero_val_1"></label><input name="zero_reset_1" onclick="zeroReset(1)" type="submit" value="零点值校准" id="zero_reset_1" style="font-size:15px;"/></td>
+<td width="170px" align="center" id="base_td_b"><label id = "base_val_1"></label><input name="base_reset_1" onclick="baseReset(1)" type="submit" value="基准值校准" id="base_reset_1" style="font-size:15px;"/></td>
+</tr>
+-->
 </table>
 </div>
 
@@ -238,9 +278,9 @@ if(!isSU()){
 	document.getElementById("base_td_b").width = newWidth;
 
 	document.getElementById("zero_reset_0").style.display = "none";
-	document.getElementById("zero_reset_1").style.display = "none";
 	document.getElementById("base_reset_0").style.display = "none";
-	document.getElementById("base_reset_1").style.display = "none";
+//	document.getElementById("zero_reset_1").style.display = "none";
+//	document.getElementById("base_reset_1").style.display = "none";
 	
 }
 
@@ -287,9 +327,9 @@ function init(){
 	}
 
 	document.getElementById("zero_reset_0").disabled = calibrating_vals == 0xFF? null : "disabled";
-	document.getElementById("zero_reset_1").disabled = calibrating_vals == 0xFF? null : "disabled";
 	document.getElementById("base_reset_0").disabled = calibrating_vals == 0xFF? null : "disabled";
-	document.getElementById("base_reset_1").disabled = calibrating_vals == 0xFF? null : "disabled";
+//	document.getElementById("zero_reset_1").disabled = calibrating_vals == 0xFF? null : "disabled";
+//	document.getElementById("base_reset_1").disabled = calibrating_vals == 0xFF? null : "disabled";
 	
 	if(isSU()){
 		if(calibrating_vals != 0xFF){
@@ -314,14 +354,17 @@ function init(){
 	
 	//测试ADC
 	var field_w4w6_s0d1_vals = Number(field_w4w6_s0d1_0_txt);
+	if(debug){
+		field_w4w6_s0d1_vals = 1;
+	}
 	
 	document.getElementById('logo_img').src = (field_w4w6_s0d1_vals & 0x01) == 0? "image/head_s.jpg" : "image/head_d.jpg";
 		
-	document.getElementById("field_1").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
-	document.getElementById("b_bufang").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
-	document.getElementById("b_open").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
-	document.getElementById("b_invade").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
-	document.getElementById("b_relax").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
+//	document.getElementById("field_1").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
+//	document.getElementById("b_bufang").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
+//	document.getElementById("b_open").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
+//	document.getElementById("b_invade").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
+//	document.getElementById("b_relax").style.color = (field_w4w6_s0d1_vals & 0x01) == 0? "black" : "gray";
 	
 	
 	// alarm_state
@@ -357,36 +400,36 @@ function init(){
 		if((control & 0x01) == 0x01){
 			document.getElementById("a_bufang").innerHTML = "开启";
 			document.getElementById("a_invade").innerHTML = ((alarm_state & 0x01) == 0x01)?red:green;
-			document.getElementById("a_open").innerHTML = ((alarm_state & 0x02) == 0x02)?red:green;
-			document.getElementById("a_relax").innerHTML = ((alarm_state & 0x100) == 0x100)?yellow_flash:green;
-			showMessage(((alarm_state & 0x100) == 0x100)?"警告：A防区围栏线松弛，请及时调整！" : "", 1);
+			document.getElementById("a_open").innerHTML = ((alarm_state & 0x02) == 0x02)?yellow_flash:green;
+//			document.getElementById("a_relax").innerHTML = ((alarm_state & 0x100) == 0x100)?yellow_flash:green;
+			showMessage(((alarm_state & 0x02) == 0x02)?"警告：防区围栏线拉力偏离，请及时调整！" : "", 1);
 		}else{
 			document.getElementById("a_bufang").innerHTML = "关闭";
 			document.getElementById("a_invade").innerHTML = gray;
 			document.getElementById("a_open").innerHTML = gray;
-			document.getElementById("a_relax").innerHTML = gray;
+//			document.getElementById("a_relax").innerHTML = gray;
 		}
 		
-		if((field_w4w6_s0d1_vals & 0x01) == 0){ //双防区的情况下
-			if((control & 0x02) == 0x02){
-				document.getElementById("b_bufang").innerHTML = "开启";
-				document.getElementById("b_invade").innerHTML = ((alarm_state & 0x04) == 0x04)?red:green;
-				document.getElementById("b_open").innerHTML = ((alarm_state & 0x08) == 0x08)?red:green;
-				document.getElementById("b_relax").innerHTML = ((alarm_state & 0x200) == 0x200)?yellow_flash:green;
-				showMessage(((alarm_state & 0x200) == 0x200)?"警告：B防区围栏线松弛，请及时调整！" : "", 1);
-				
-			}else{
-				document.getElementById("b_bufang").innerHTML = "关闭";
-				document.getElementById("b_invade").innerHTML = gray;
-				document.getElementById("b_open").innerHTML = gray;
-				document.getElementById("b_relax").innerHTML = gray;
-			}
-		}else{
-			document.getElementById("b_bufang").innerHTML = "关闭";
-			document.getElementById("b_invade").innerHTML = gray;
-			document.getElementById("b_open").innerHTML = gray;
-			document.getElementById("b_relax").innerHTML = gray;
-		}
+//		if((field_w4w6_s0d1_vals & 0x01) == 0){ //双防区的情况下
+//			if((control & 0x02) == 0x02){
+//				document.getElementById("b_bufang").innerHTML = "开启";
+//				document.getElementById("b_invade").innerHTML = ((alarm_state & 0x04) == 0x04)?red:green;
+//				document.getElementById("b_open").innerHTML = ((alarm_state & 0x08) == 0x08)?red:green;
+////				document.getElementById("b_relax").innerHTML = ((alarm_state & 0x200) == 0x200)?yellow_flash:green;
+//				showMessage(((alarm_state & 0x200) == 0x200)?"警告：B防区围栏线松弛，请及时调整！" : "", 1);
+//				
+//			}else{
+//				document.getElementById("b_bufang").innerHTML = "关闭";
+//				document.getElementById("b_invade").innerHTML = gray;
+//				document.getElementById("b_open").innerHTML = gray;
+////				document.getElementById("b_relax").innerHTML = gray;
+//			}
+//		}else{
+//			document.getElementById("b_bufang").innerHTML = "关闭";
+//			document.getElementById("b_invade").innerHTML = gray;
+//			document.getElementById("b_open").innerHTML = gray;
+////			document.getElementById("b_relax").innerHTML = gray;
+//		}
 		
 		document.getElementById("a_sw2").innerHTML = ((alarm_state & 0x40) == 0x40)?red:green;
 		document.getElementById("a_sw1").innerHTML = ((alarm_state & 0x20) == 0x20)?red:green;
@@ -405,10 +448,10 @@ function init(){
 		var field_paras = field_para_vals[0].split("+");
 		ten_val_range[0][0] = Number(field_paras[3]) / 10;
 		ten_val_range[0][1] = Number(field_paras[4]) / 10;
-		//B防区
-		field_paras = field_para_vals[1].split("+");
-		ten_val_range[1][0] = Number(field_paras[3]) / 10;
-		ten_val_range[1][1] = Number(field_paras[4]) / 10;
+//		//B防区
+//		field_paras = field_para_vals[1].split("+");
+//		ten_val_range[1][0] = Number(field_paras[3]) / 10;
+//		ten_val_range[1][1] = Number(field_paras[4]) / 10;
 	}
 	
 	var ab_adc_txt = document.getElementById("ab_adc_0");
@@ -446,7 +489,7 @@ function init(){
  */
 function getAutoClbrtMsg(calibrating_vals){
 	var clbrtType = "零点值";
-	var fieldName = "A防区";
+	var fieldName = "防区";
 	
 	if((calibrating_vals & 0x10) == 0x10){
 		clbrtType = "基准值";
@@ -483,18 +526,18 @@ function update_adc_val(line_cnt, ab_adc_val, adc_type)
 		if(calibrating_en[0] == 0){
 			document.getElementById("base_reset_0").disabled = "disabled";
 			document.getElementById("message1").innerHTML = 
-				calibrating_vals == 0xFF? "A防区实时拉力超出有效范围，此时不能进行基准值校准，请调整拉力!  " :"";
+				calibrating_vals == 0xFF? "防区实时拉力超出有效范围，此时不能进行基准值校准，请调整拉力!  " :"";
 		}else{
 			document.getElementById("message1").innerHTML = "";
 		}
-		//B防区
-		if(calibrating_en[1] == 0){
-			document.getElementById("base_reset_1").disabled = "disabled";
-			document.getElementById("message2").innerHTML = 
-				calibrating_vals == 0xFF? "B防区实时拉力超出有效范围，此时不能进行基准值校准，请调整拉力!  " :"";
-		}else{
-			document.getElementById("message2").innerHTML = "";
-		}
+//		//B防区
+//		if(calibrating_en[1] == 0){
+//			document.getElementById("base_reset_1").disabled = "disabled";
+//			document.getElementById("message2").innerHTML = 
+//				calibrating_vals == 0xFF? "B防区实时拉力超出有效范围，此时不能进行基准值校准，请调整拉力!  " :"";
+//		}else{
+//			document.getElementById("message2").innerHTML = "";
+//		}
 	}
 	
 	for(var i = 0; i < a_crt_adc_val.length; i++){
@@ -512,20 +555,20 @@ function update_adc_val(line_cnt, ab_adc_val, adc_type)
 		}
 	}
 	
-	for(var i = 0; i < b_crt_adc_val.length; i++){
-		b_crt_adc_val[i] = formatAdc(b_crt_adc_val[i]);
-		if(adc_type == 0){
-			if(b_crt_adc_val[i] > b_base_adc_val[i]){
-				color_b[i] = color_high;
-			}else if(b_crt_adc_val[i] < b_base_adc_val[i]){
-				color_b[i] = color_low;
-			}else{
-				color_b[i] = color_normal;
-			}
-		}else{
-			color_b[i] = color_normal;
-		}
-	}
+//	for(var i = 0; i < b_crt_adc_val.length; i++){
+//		b_crt_adc_val[i] = formatAdc(b_crt_adc_val[i]);
+//		if(adc_type == 0){
+//			if(b_crt_adc_val[i] > b_base_adc_val[i]){
+//				color_b[i] = color_high;
+//			}else if(b_crt_adc_val[i] < b_base_adc_val[i]){
+//				color_b[i] = color_low;
+//			}else{
+//				color_b[i] = color_normal;
+//			}
+//		}else{
+//			color_b[i] = color_normal;
+//		}
+//	}
 	
 	//记录基准值，用来和当前值比较显示颜色
 	if(adc_type == 2){
@@ -553,24 +596,24 @@ function update_adc_val(line_cnt, ab_adc_val, adc_type)
 	}
 	document.getElementById(a_eleId).innerHTML = a_crt_val_str;
 	
-	//B防区拉力
-	var b_crt_val_str = 
-			"<font color='" + color_b[0] + "'><b>L1:</b> " + b_crt_adc_val[0] + "&emsp;</font> " +
-			"<font color='" + color_b[1] + "'><b>L2:</b> " + b_crt_adc_val[1] + "</font><br/>" + 
-			"<font color='" + color_b[2] + "'><b>L3:</b> " + b_crt_adc_val[2] + "&emsp;</font> " +
-			"<font color='" + color_b[3] + "'><b>L4:</b> " + b_crt_adc_val[3] + "</font><br/>";
-	if(line_cnt == 6){
-		b_crt_val_str += 
-			"<font color='" + color_b[4] + "'><b>L5:</b> " + b_crt_adc_val[4] + "&emsp;</font> " +
-			"<font color='" + color_b[5] + "'><b>L6:</b> " + b_crt_adc_val[5] + "</font><br/>";
-	}
-	var b_eleId = "b_adc";
-	if(1 == adc_type){
-		b_eleId = "zero_val_1";
-	}else if(2 == adc_type){
-		b_eleId = "base_val_1";
-	}
-	document.getElementById(b_eleId).innerHTML = b_crt_val_str;
+//	//B防区拉力
+//	var b_crt_val_str = 
+//			"<font color='" + color_b[0] + "'><b>L1:</b> " + b_crt_adc_val[0] + "&emsp;</font> " +
+//			"<font color='" + color_b[1] + "'><b>L2:</b> " + b_crt_adc_val[1] + "</font><br/>" + 
+//			"<font color='" + color_b[2] + "'><b>L3:</b> " + b_crt_adc_val[2] + "&emsp;</font> " +
+//			"<font color='" + color_b[3] + "'><b>L4:</b> " + b_crt_adc_val[3] + "</font><br/>";
+//	if(line_cnt == 6){
+//		b_crt_val_str += 
+//			"<font color='" + color_b[4] + "'><b>L5:</b> " + b_crt_adc_val[4] + "&emsp;</font> " +
+//			"<font color='" + color_b[5] + "'><b>L6:</b> " + b_crt_adc_val[5] + "</font><br/>";
+//	}
+//	var b_eleId = "b_adc";
+//	if(1 == adc_type){
+//		b_eleId = "zero_val_1";
+//	}else if(2 == adc_type){
+//		b_eleId = "base_val_1";
+//	}
+//	document.getElementById(b_eleId).innerHTML = b_crt_val_str;
 }
 
 /**

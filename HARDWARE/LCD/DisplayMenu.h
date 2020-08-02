@@ -179,11 +179,11 @@ void DisplaySetDateTime(void);//设定日期时间
 void DisplaySetEthPara(void);//设置网络参数
 void DisplaySetRS485Para(void);//设置RS485参数
 void DisplayClearRuQinAlarmRecord(void);//清除入侵告警记录
-void DisplayClearDuanXianAlarmRecord(void);//清除断线告警记录
+void DisplayClearDuanXianAlarmRecord(void);//清除偏移告警记录
 void DisplayInqEthPara(void);//查询网络参数
 void DisplayInqRS485Para(void);//查询RS485参数
 void DisplayInqRuQinAlarmRecord(void);//查询入侵告警记录
-void DisplayInqDuanXianAlarmRecord(void);//查询断线告警记录
+void DisplayInqDuanXianAlarmRecord(void);//查询偏移告警记录
 void DisplayInqFangChaiAlarmRecord(void);//查询防拆告警记录
 void DisplaySetMacAddr(void);//设置MAC地址
 void DisplaySetIpAddr(void);//设置IP地址
@@ -196,8 +196,8 @@ void DisplayInqGateWay(void);//查询网关
 void UpdateAlarmRecord(void);//更新告警记录
 void DisplayInqAAreaRuQinAlarmRecord(void);//查询A防区入侵告警记录
 void DisplayInqBAreaRuQinAlarmRecord(void);//查询B防区入侵告警记录
-void DisplayInqAAreaDuanXianAlarmRecord(void);//查询A防区断线告警记录
-void DisplayInqBAreaDuanXianAlarmRecord(void);//查询B防区断线告警记录
+void DisplayInqAAreaDuanXianAlarmRecord(void);//查询A防区偏移告警记录
+void DisplayInqBAreaDuanXianAlarmRecord(void);//查询B防区偏移告警记录
 
 void DisplayAareaZeroVal(void);//显示A防区零点值
 void DisplayBareaZeroVal(void);//显示B防区零点值

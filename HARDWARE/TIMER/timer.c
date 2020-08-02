@@ -86,11 +86,11 @@ void TIM3_IRQHandler(void)
 			SET_VAR_BIT(timerHandlerFlag, 7);	//			LM75_ReadTempStr(crtLM75TempStr);
 		}
 
-		for(i = 0; i < 2; i++){  //A区和B区
+		for(i = 0; i < FIELD_COUNT; i++){  //A区和B区-->一个防区（A区)
 			if(adcIvdAlmVerifyCnt[i] > 0 && adcIvdAlmVerifyCnt[i] < (alarm_sensitivity[i] + 1)){  //入侵 alarm_sensitivity 秒确认
 				adcIvdAlmVerifyCnt[i]++;
 			}
-			if(adcOpnAlmVerifyCnt[i] > 0 && adcOpnAlmVerifyCnt[i] < (alarm_sensitivity[i] + 1)){  //断线 alarm_sensitivity 秒确认
+			if(adcOpnAlmVerifyCnt[i] > 0 && adcOpnAlmVerifyCnt[i] < (alarm_sensitivity[i] + 1)){  //偏移 alarm_sensitivity 秒确认
 				adcOpnAlmVerifyCnt[i]++;
 			}
 		}
@@ -105,14 +105,14 @@ void TIM3_IRQHandler(void)
 			}
 
 			//A区和B区松弛单独计算
-			for(i = 0; i < 2; i++){
+			for(i = 0; i < FIELD_COUNT; i++){
 				if(adcRlxAlmVerifyCnt[i] > 0 && adcRlxAlmVerifyCnt[i] < (RELAX_VERIFIED_TIME_S + 1)){  //松弛确认秒数
 					adcRlxAlmVerifyCnt[i]++;
 				}
 			}
 			//自动校准: （1.校准时间为0时不进行自动校准； 2.告警时不进行校准。
 			if(base_auto_calibrate_time > 0){
-				for(i = 0; i < 2; i++){
+				for(i = 0; i < FIELD_COUNT; i++){
 					baseAutoCalibrateCnt[i]++;
 					if(baseAutoCalibrateCnt[i] >= (base_auto_calibrate_time * 60)){//自动校准
 						if(calibrating_flag != 0xFF){ //如果正在校准，则回退CALIBRATING_TIME ms,
@@ -260,25 +260,25 @@ void TIM5_IRQHandler(void) {
 			alarmingCnt[0]++;
 		}
 
-		if (alarmingCnt[1] == -1)
-		{
-			if ((ALARM_STATE & (IS_SET_BIT(config_code, 3)? 0x1C: 0x21C)) != 0x00)
-			{
-				Alarm_RL_B();
-			}
-		} else if (alarmingCnt[1] == alarm_delay[1] * 10)
-		{  //30秒
-			if ((ALARM_STATE & (IS_SET_BIT(config_code, 3)? 0x1C: 0x21C)) != 0x00)
-			{
-				Alarm_RL_B();
-			} else
-			{
-				Remove_Alarm_RL_B();
-			}
-		} else
-		{
-			alarmingCnt[1]++;
-		}
+//		if (alarmingCnt[1] == -1)
+//		{
+//			if ((ALARM_STATE & (IS_SET_BIT(config_code, 3)? 0x1C: 0x21C)) != 0x00)
+//			{
+//				Alarm_RL_B();
+//			}
+//		} else if (alarmingCnt[1] == alarm_delay[1] * 10)
+//		{  //30秒
+//			if ((ALARM_STATE & (IS_SET_BIT(config_code, 3)? 0x1C: 0x21C)) != 0x00)
+//			{
+//				Alarm_RL_B();
+//			} else
+//			{
+//				Remove_Alarm_RL_B();
+//			}
+//		} else
+//		{
+//			alarmingCnt[1]++;
+//		}
 
 	}
 	TIM_ClearITPendingBit(TIM5, TIM_IT_Update );  //清除中断标志位

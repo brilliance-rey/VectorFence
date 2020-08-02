@@ -6,6 +6,7 @@
 
 #define DEVICE_TYPE_PEF		0	//电子围栏
 #define DEVICE_TYPE_TENSION	1	//张力围栏
+#define DEVICE_TYPE_VERTOR	2	//矢量围栏
 
 #define TCP_SERVER_RX_BUFSIZE	512		//定义tcp server最大接收数据长度
 #define TCP_SERVER_PORT			9990	//定义tcp server的端口

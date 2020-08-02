@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <!-- <meta http-equiv="refresh" content="30"> -->
-<title>张力围栏主机</title>
+<title>矢量围栏主机</title>
 
 <script src="./common.js"></script>
 
@@ -30,14 +30,14 @@ if(operate_msg_ck != ""){
 
 .txtstyle_ten{width:42%; font-size:18px; text-align:center; valign="middle"}
 .txtstyle250{width:250px; font-size:18px; text-align:center; valign="middle"}
-.txtstyle{width:200px; font-size:18px; text-align:center; valign="middle"}
+.txtstyle{width:250px; font-size:18px; text-align:center; valign="middle"}
  
 </style>
 </head>
 <body class="bodystyle">
 <div style="background-color:#FFFFFF;">
 	<div class="logo">
-	 <img id = "logo_img" src="" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
+	 <img id = "logo_img" src="image/head_s.jpg" alt="北京欣泰林科技有限公司" title="北京欣泰林科技有限公司" style="margin:0px 0px 0px 0px;" />
 	</div>
 </div>
  
@@ -64,18 +64,15 @@ if(operate_msg_ck != ""){
 <div align="center">
 <table border="1" cellpadding="2" align="center"> 
 <tr>
-  <th width="150" align="center"><strong>防区</strong></th>
-  <th width="200" align="center"><strong>防区号(1-80)</strong></th>
-  <th width="200" align="center"><strong>警号延时(秒)</strong></th>
-  <th width="200" align="center"><strong>灵敏度</strong></th>
-  <!-- <th width="200" align="center"><strong>拉力监控有效范围(Kg)</strong></th> -->
-  <th width="200" align="center"><strong>报警复位</strong></th>
+  <th width="250" align="center"><strong>防区号(1-80)</strong></th>
+  <th width="250" align="center"><strong>警号延时(秒)</strong></th>
+  <th width="250" align="center"><strong>灵敏度</strong></th>
+  <th width="250" align="center"><strong>报警复位</strong></th>
 </tr>
 <tr>
-  <th width="150" align="center" id = "field_0" style = "color: black">A区</th>
-  <td width="200" ><input name="field_num_0" type="text" id="field_num_0" class="txtstyle"/></td>
-  <td width="200" ><input name="alm_dly_0" type="text" id="alm_dly_0" class="txtstyle"/></td>
-  <td width="200" align="center"  bgcolor="#FFFFFF">
+  <td width="250" ><input name="field_num_0" type="text" id="field_num_0" class="txtstyle"/></td>
+  <td width="250" ><input name="alm_dly_0" type="text" id="alm_dly_0" class="txtstyle"/></td>
+  <td width="250" align="center"  bgcolor="#FFFFFF">
   	<select name="sensitivity_0" size="1" id="sensitivity_0" class="txtstyle" >
 	  <option value="1">1级</option>
 	  <option value="2">2级</option>
@@ -89,18 +86,12 @@ if(operate_msg_ck != ""){
 	  <option value="10">10级</option>
 	</select>
   </td>
-  <!-- <td width="200" align="center" >
-    <input name="ten_val_range_0_0" type="text" id="ten_val_range_0_0" class="txtstyle_ten"/>
-    <label>~</label>
-    <input name="ten_val_range_0_1" type="text" id="ten_val_range_0_1" class="txtstyle_ten"/>
-  </td> -->
-  <td width="200" align="center"><input name="alarm_reset_0" onclick="alarmReset(0)" type="submit" value="报警复位" id="alarm_reset_0" style="font-size:15px;"/></td>
+  <td width="250" align="center"><input name="alarm_reset_0" onclick="alarmReset(0)" type="submit" value="报警复位" id="alarm_reset_0" style="font-size:15px;"/></td>
 </tr>
-<tr>
-  <th width="150" align="center" id = "field_1" style = "color: black">B区</th>
-  <td width="200" ><input name="field_num_1" type="text" id="field_num_1" class="txtstyle"/></td>
-  <td width="200" ><input name="alm_dly_1" type="text" id="alm_dly_1" class="txtstyle"/></td>
-  <td width="200" align="center"  bgcolor="#FFFFFF">
+<tr style="display: none">
+  <td width="250" ><input name="field_num_1" type="text" id="field_num_1" class="txtstyle"/></td>
+  <td width="250" ><input name="alm_dly_1" type="text" id="alm_dly_1" class="txtstyle"/></td>
+  <td width="250" align="center"  bgcolor="#FFFFFF">
   	<select name="sensitivity_1" size="1" id="sensitivity_1" class="txtstyle" >
 	  <option value="1">1级</option>
 	  <option value="2">2级</option>
@@ -114,12 +105,7 @@ if(operate_msg_ck != ""){
 	  <option value="10">10级</option>
 	</select>
   </td>
-  <!-- <td width="200" align="center" >
-	<input name="ten_val_range_1_0" type="text" id="ten_val_range_1_0" class="txtstyle_ten"/>
-	<label>~</label>
-	<input name="ten_val_range_1_1" type="text" id="ten_val_range_1_1" class="txtstyle_ten"/>
-  </td>-->
-  <td width="200" align="center"><input name="alarm_reset_1" onclick="alarmReset(1)" type="submit" value="报警复位" id="alarm_reset_1" style="font-size:15px;" /></td>
+  <td width="250" align="center"><input name="alarm_reset_1" onclick="alarmReset(1)" type="submit" value="报警复位" id="alarm_reset_1" style="font-size:15px;" /></td>
 </tr>
 </table>
 <input name="setFieldPara" onclick="setFieldPara()" type="submit" value="提交" style="font-size:15px; margin:5px 30px 0px 0px;" />
@@ -145,14 +131,15 @@ if(operate_msg_ck != ""){
   </td>
 </tr>
 <tr>
-  <th width="200" align="right" id = "bufang_0" style = "color: black"><strong>A区布防</strong>：</th>
+  <th width="200" align="right" id = "bufang_0" style = "color: black"><strong>防区布防</strong>：</th>
   <td width="200" align="center" bgcolor="#FFFFFF" >
 	<form method=post id="a_bf">
 		<input name="a_bf" onclick = "control('a_bf',1)" type="radio" value="a_bf_on" id="a_bf_on" checked />开启
 		<input name="a_bf" onclick = "control('a_bf',0)" type="radio" value="a_bf_off" id="a_bf_off" />关闭
 	</form>
   </td>
-</tr><tr>
+</tr>
+<tr style="display: none">
   <th width="200" align="right" id = "bufang_1" style = "color: black"><strong>B区布防</strong>：</th>
   <td width="200" align="center" bgcolor="#FFFFFF" >
 	<form method=post id="b_bf">
@@ -176,11 +163,11 @@ if(operate_msg_ck != ""){
 <div style=" text-align:center;">
 	<table border="1" cellpadding="2" align="center">
 		<tr>
-			<th width="200" align="right" id = "vol_level_0" style = "color: black">报警阈值上限偏移量(Kg)：</th>
+			<th width="200" align="right" id = "vol_level_0" style = "color: black">报警阈值上限偏移量：</th>
 			<td width="200" ><input name="alarm_threshold_up_dif_0" type="text" id="alarm_threshold_up_dif_0" class="txtstyle"/></td>
 		</tr>   
 		<tr>
-			<th width="200" align="right" id = "vol_level_1" style = "color: black">报警阈值下限偏移量(Kg)：</th>
+			<th width="200" align="right" id = "vol_level_1" style = "color: black">报警阈值下限偏移量：</th>
 			<td width="200" ><input name="alarm_threshold_down_dif_0" type="text" id="alarm_threshold_down_dif_0" class="txtstyle"/></td>
 		</tr>
 	</table>
@@ -196,7 +183,7 @@ if(operate_msg_ck != ""){
 <div id = "tension_paras_set_table" style=" text-align:center;">
 <table border="1" cellpadding="2" align="center">
 	<tr>
-		<th width="250" align="right" id = "vol_level_0" style = "color: black">满量程拉力值(Kg)：</th>
+		<th width="250" align="right" id = "vol_level_0" style = "color: black">满量程值：</th>
 		<td width="250" ><input name="tension_max_range" type="text" id="tension_max_range" class="txtstyle250"/></td>
 	</tr>
 
@@ -332,11 +319,11 @@ function setFieldPara(){
 	
 	var field_num_0 = field_num_0_txt.value;
 	if(field_num_0.match(/^\d{1,2}$/) == null){
-		alert("A防区号格式输入有误，请重新输入！");
+		alert("防区号格式输入有误，请重新输入！");
 		return;
 	}
 	if(Number(field_num_0) < 0 || Number(field_num_0) > 80){
-		alert("A防区号取值为0~80，请重新输入！");
+		alert("防区号取值为0~80，请重新输入！");
 		return;
 	}
 	

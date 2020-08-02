@@ -26,13 +26,42 @@ Project File Date:  07/18/2020
 
 <h2>Output:</h2>
 Build target 'VectorFence'
-"..\OBJ\VectorFence.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+compiling adc.c...
+compiling led.c...
+compiling 24cxx.c...
+compiling alarm.c...
+compiling DisplayMenu.c...
+..\HARDWARE\LCD\DisplayMenu.c(2428): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+        Display_Line_Index_8x16 (Page_2,0,crtLCDPageLogData[0],DISPLAY_POSITIVE);
+..\HARDWARE\LCD\DisplayMenu.c(2429): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+        Display_Line_Index_8x16 (Page_4,0,crtLCDPageLogData[1],DISPLAY_POSITIVE);
+..\HARDWARE\LCD\DisplayMenu.c(2430): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *"
+        Display_Line_Index_8x16 (Page_6,0,crtLCDPageLogData[2],DISPLAY_POSITIVE);
+..\HARDWARE\LCD\DisplayMenu.c: 3 warnings, 0 errors
+compiling timer.c...
+compiling sys.c...
+compiling httpd_cgi_ssi.c...
+compiling tcp_server.c...
+..\LWIP\lwip_app\tcp_server\tcp_server.c(230): warning:  #550-D: variable "err" was set but never used
+        err_t recv_err, err;
+..\LWIP\lwip_app\tcp_server\tcp_server.c(277): warning:  #550-D: variable "msgLen" was set but never used
+        u8 msgLen = 0;
+..\LWIP\lwip_app\tcp_server\tcp_server.c(278): warning:  #550-D: variable "deviceType" was set but never used
+        u8 fieldNum = 0, deviceType = 0;
+..\LWIP\lwip_app\tcp_server\tcp_server.c: 3 warnings, 0 errors
+linking...
+..\OBJ\VectorFence.axf: Error: L6218E: Undefined symbol Remove_Alarm_RL_B (referred from main.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+"..\OBJ\VectorFence.axf" - 1 Error(s), 6 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\keil_workspace\VectorFence\USER\RTE
   D:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+Target not created.
 </pre>
 </body>
 </html>

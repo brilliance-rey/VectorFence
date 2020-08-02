@@ -51,5 +51,5 @@ function isSU(){
 	if(usrCk == "xql"){
 		return true;
 	}
-	return false;
+	return debug? true: false;
 }

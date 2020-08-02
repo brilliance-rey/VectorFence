@@ -61,11 +61,11 @@ void EraseEEPormParas(void);
 void WriteNetParasToEEProm(void);
 void ReadNetParasFromEEProm(void);
 
-void WriteAdcZeroToEEProm(u8 field_index);
-void ReadAdcZeroFromEEProm(u8 field_index);
+void WriteAdcZeroToEEProm(u8 axix_index);
+void ReadAdcZeroFromEEProm(u8 axix_index);
 
-void WriteAdcBaseToEEProm(u8 field_index);
-void ReadAdcBaseFromEEProm(u8 field_index);
+void WriteAdcBaseToEEProm(u8 axix_index);
+void ReadAdcBaseFromEEProm(u8 axix_index);
 
 void WriteAlmThrdToEEProm(void);
 void ReadAlmThrdFromEEProm(void);

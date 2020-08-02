@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>张力围栏主机</title>
+<title>矢量围栏主机</title>
 
 <script src="./common.js"></script>
 
@@ -84,10 +84,7 @@ if(operate_msg_ck != ""){
 	<td width="250" align="center"  bgcolor="#FFFFFF"><select name="LogType" size="1" id="logtype" class="txtstyle" onchange="logChange()">
 	    <!-- log.h: #define LOG_TYPE_BOPN	0	#define LOG_TYPE_BIVD	1	#define LOG_TYPE_AOPN	2	#define LOG_TYPE_AIVD	3	#define LOG_TYPE_FC		4  -->
 	    <option value="4" id="log_fc" selected="selected">防拆告警</option>
-	    <option value="2" id="log_open_a">A防区断线告警</option>
-	    <option value="3" id="log_invade_a">A防区入侵告警</option>
-	    <option value="0" id="log_open_b">B防区断线告警</option>
-	    <option value="1" id="log_invade_b">B防区入侵告警</option>
+	    <option value="3" id="log_invade_a">防区告警</option>
 	  </select></td>
 	  <td width="250px" align="center"><input name="nextpage" onclick="getPageLog(1)" type="submit" value="下一页" id="nextpage" style="font-size:17px;" /></td>
 </tr>
@@ -139,7 +136,7 @@ if(field_s0d1_0_txt != null){  //单、双防区标志
 	document.getElementById('log_invade_b').style.display = (field_s0d1_vals & 0x01) == 0? "" : "none";
 }
 
-var logTypeName = ["B防区断线告警","B防区入侵告警","A防区断线告警","A防区入侵告警","防拆告警"];
+var logTypeName = ["B防区偏移告警","B防区入侵告警","A防区偏移告警","防区告警","防拆告警"];
 
 var log_type_0_txt = document.getElementById("log_type_0");
 var log_0_txt = document.getElementById("log_0");

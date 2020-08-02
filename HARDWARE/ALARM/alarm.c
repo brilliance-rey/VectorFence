@@ -134,6 +134,8 @@ void ALARM_Init(void)
 
 	//如果读到的数0xFF，则是出厂状态或default了。
 	AT24CXX_Read(ControlParaAddr, &controlParaTmp, 1);
+
+	FIELD_FLAG_S0D1 = 1;	//针对矢量围栏，强制为单防区
 	if (controlParaTmp == 0xFF)
 	{ //default
 		flag_fcgjsn = ON;
@@ -166,14 +168,16 @@ void ALARM_Init(void)
 	updateSWAlarmState(1);
 	updateSWAlarmState(0);
 
-	if (((config_code >> 1) & 0x01) == 0)
-	{
-		W4_W6 = IS_W4;
-	}
-	else
-	{
-		W4_W6 = IS_W6;
-	}
+//	if (((config_code >> 1) & 0x01) == 0)
+//	{
+//		W4_W6 = IS_W4;
+//	}
+//	else
+//	{
+//		W4_W6 = IS_W6;
+//	}
+
+	W4_W6 = IS_W6;
 
 	//如果读到的数0xFF，则是出厂状态或default了。
 	ReadAlmThrdFromEEProm();
@@ -202,18 +206,18 @@ void Remove_Alarm_RL_A(void)
 	ALARM_STATE_DELAY = ALARM_STATE;
 }
 
-void Alarm_RL_B(void)
-{
-	RL_B = 1;
-	alarmingCnt[1] = 1;
-}
-
-void Remove_Alarm_RL_B(void)
-{
-	RL_B = 0;
-	alarmingCnt[1] = -1;
-	ALARM_STATE_DELAY = ALARM_STATE;
-}
+//void Alarm_RL_B(void)
+//{
+//	RL_B = 1;
+//	alarmingCnt[1] = 1;
+//}
+//
+//void Remove_Alarm_RL_B(void)
+//{
+//	RL_B = 0;
+//	alarmingCnt[1] = -1;
+//	ALARM_STATE_DELAY = ALARM_STATE;
+//}
 
 void FangChai_Start(void)
 {
@@ -393,71 +397,71 @@ void updateTensionParasByMaxValue(){
 
 /**
  * ADC_Check_Handler之前多次检测。
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void ADC_Check(u8 field_index)
+void ADC_Check(u8 axix_index)
 {
 	u8 i;
 	u8 line_count = (W4_W6 == IS_W4 ? 4 : 6);
 
-	adc_invd_crt[field_index] = NO_ALARM;
-	adc_open_crt[field_index] = NO_ALARM;
-	adc_relax_crt[field_index] = NO_ALARM;
+	adc_invd_crt[axix_index] = NO_ALARM;
+	adc_open_crt[axix_index] = NO_ALARM;
+	adc_relax_crt[axix_index] = NO_ALARM;
 
 	//更新A防区状态
 
-	updateCrtSmp(field_index);
+	updateCrtSmp(axix_index);
 	for (i = 0; i < line_count; i++)
 	{
 		//如果4/6线中有1路线超出上限，报入侵告警
-		if (NO_ALARM == adc_invd_crt[field_index] && (crt_val[field_index][i] - base_val[field_index][i]) > alarm_threshold_up_dif)
+		if (NO_ALARM == adc_invd_crt[axix_index] && (crt_val[axix_index][i] - base_val[axix_index][i]) > alarm_threshold_up_dif)
 		{
-			adc_invd_crt[field_index] = ALARM;
+			adc_invd_crt[axix_index] = ALARM;
 		}
 
-		//如果4/6线中有1路拉力值小于认为断线的最大拉力值，则报断线告警
-		if (NO_ALARM == adc_open_crt[field_index] && (crt_val[field_index][i] < OPEN_VAL_MAX_KG))
+		//如果4/6线中有1路拉力值小于认为偏移的最大拉力值，则报偏移告警
+		if (NO_ALARM == adc_open_crt[axix_index] && (crt_val[axix_index][i] < OPEN_VAL_MAX_KG))
 		{
-			adc_open_crt[field_index] = ALARM;
+			adc_open_crt[axix_index] = ALARM;
 		}
 
-		//未断线的情况下，再报松弛，如果4/6线中有1路拉力值小于下限，则报松弛告警
-		if (NO_ALARM == adc_open_crt[field_index] &&
-				NO_ALARM == adc_relax_crt[field_index] && (base_val[field_index][i] - crt_val[field_index][i]) > alarm_threshold_down_dif)
+		//未偏移的情况下，再报松弛，如果4/6线中有1路拉力值小于下限，则报松弛告警
+		if (NO_ALARM == adc_open_crt[axix_index] &&
+				NO_ALARM == adc_relax_crt[axix_index] && (base_val[axix_index][i] - crt_val[axix_index][i]) > alarm_threshold_down_dif)
 		{
-			adc_relax_crt[field_index] = ALARM;
+			adc_relax_crt[axix_index] = ALARM;
 		}
 	}
 }
 
 /**
  * A防区检测告警处理
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void ADC_Check_Handler(u8 field_index)
+void ADC_Check_Handler(u8 axix_index)
 {
 	//入侵上一次告警标志
-	u8 adc_invd_last = GET_ALARM_STATE(ALARM_STATE, (field_index == 0? A_INVD_MASK : B_INVD_MASK));
-	u8 adc_open_last = GET_ALARM_STATE(ALARM_STATE, (field_index == 0? A_OPN_MASK : B_OPN_MASK));
-	u8 adc_relax_last = GET_ALARM_STATE(ALARM_STATE, (field_index == 0? A_RLX_MASK : B_RLX_MASK));
+	u8 adc_invd_last = GET_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_INVD_MASK : B_INVD_MASK));
+	u8 adc_open_last = GET_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_OPN_MASK : B_OPN_MASK));
+	u8 adc_relax_last = GET_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_RLX_MASK : /*B_RLX_MASK*/));
 
-	ADC_Check(field_index);
+	ADC_Check(axix_index);
 
-	if ((0 == field_index && BU_FANG_A_FLAG == ON) || (1 == field_index && BU_FANG_B_FLAG == ON))
+	if ((0 == axix_index && BU_FANG_A_FLAG == ON) || (1 == axix_index && BU_FANG_B_FLAG == ON))
 	{
 		//  入侵检测
-		if (adc_invd_crt[field_index] != adc_invd_last)
+		if (adc_invd_crt[axix_index] != adc_invd_last)
 		{
-			if (adc_invd_crt[field_index] == ALARM)
+			if (adc_invd_crt[axix_index] == ALARM)
 			{
-				if (adcIvdAlmVerifyCnt[field_index] == 0)
+				if (adcIvdAlmVerifyCnt[axix_index] == 0)
 				{
-					adcIvdAlmVerifyCnt[field_index] = 1;
+					adcIvdAlmVerifyCnt[axix_index] = 1;
 				}
-				if (adcIvdAlmVerifyCnt[field_index] >= alarm_sensitivity[field_index])
+				if (adcIvdAlmVerifyCnt[axix_index] >= alarm_sensitivity[axix_index])
 				{	//如：3 = 4-1, 3秒确认
-					Set_Alarm_State_Util_Clear(field_index == 0? A_INVD_MASK : B_INVD_MASK);
-					WriteLog((field_index == 0 ? LOG_TYPE_AIVD : LOG_TYPE_BIVD), ALARM);
+					Set_Alarm_State_Util_Clear(axix_index == 0? A_INVD_MASK : B_INVD_MASK);
+					WriteLog((axix_index == 0 ? LOG_TYPE_AIVD : LOG_TYPE_BIVD), ALARM);
 					ALARM_Update();
 					//return;
 				}
@@ -468,26 +472,26 @@ void ADC_Check_Handler(u8 field_index)
 			}
 			else
 			{
-				adcIvdAlmVerifyCnt[field_index] = 0;
-				CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_INVD_MASK : B_INVD_MASK));
+				adcIvdAlmVerifyCnt[axix_index] = 0;
+				CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_INVD_MASK : B_INVD_MASK));
 				ALARM_Update();
 				//return;
 			}
 		}
 
-		//断线检测
-		if (adc_open_crt[field_index] != adc_open_last)
+		//偏移检测
+		if (adc_open_crt[axix_index] != adc_open_last)
 		{
-			if (adc_open_crt[field_index] == ALARM)
+			if (adc_open_crt[axix_index] == ALARM)
 			{
-				if (adcOpnAlmVerifyCnt[field_index] == 0)
+				if (adcOpnAlmVerifyCnt[axix_index] == 0)
 				{
-					adcOpnAlmVerifyCnt[field_index] = 1;
+					adcOpnAlmVerifyCnt[axix_index] = 1;
 				}
-				if (adcOpnAlmVerifyCnt[field_index] >= alarm_sensitivity[field_index])	//如：3 = 4-1, 3秒确认
+				if (adcOpnAlmVerifyCnt[axix_index] >= alarm_sensitivity[axix_index])	//如：3 = 4-1, 3秒确认
 				{
-					Set_Alarm_State_Util_Clear(field_index == 0? A_OPN_MASK : B_OPN_MASK);
-					WriteLog((field_index == 0 ? LOG_TYPE_AOPN : LOG_TYPE_BOPN), ALARM);
+					Set_Alarm_State_Util_Clear(axix_index == 0? A_OPN_MASK : B_OPN_MASK);
+					WriteLog((axix_index == 0 ? LOG_TYPE_AOPN : LOG_TYPE_BOPN), ALARM);
 					ALARM_Update();
 					//return;
 				}
@@ -498,50 +502,50 @@ void ADC_Check_Handler(u8 field_index)
 			}
 			else
 			{
-				adcOpnAlmVerifyCnt[field_index] = 0;
-				CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_OPN_MASK : B_OPN_MASK));
+				adcOpnAlmVerifyCnt[axix_index] = 0;
+				CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_OPN_MASK : B_OPN_MASK));
 				ALARM_Update();
 				//return;
 			}
 		}
 
-		//松弛检测
-		if (adc_relax_crt[field_index] != adc_relax_last)
-		{
-			if (adc_relax_crt[field_index] == ALARM)
-			{
-				if (adcRlxAlmVerifyCnt[field_index] == 0)
-				{
-					adcRlxAlmVerifyCnt[field_index] = 1;
-				}
-				if (adcRlxAlmVerifyCnt[field_index] >= RELAX_VERIFIED_TIME_S)
-				{	//如：3 = 4-1, 3秒确认
-					Set_Alarm_State_Util_Clear(field_index == 0? A_RLX_MASK : B_RLX_MASK);
-					ALARM_Update();
-					//return;
-				}
-				else
-				{
-					//return;
-				}
-			}
-			else
-			{
-				adcRlxAlmVerifyCnt[field_index] = 0;
-				CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_RLX_MASK : B_RLX_MASK));
-				ALARM_Update();
-				//return;
-			}
-		}
+//		//松弛检测
+//		if (adc_relax_crt[axix_index] != adc_relax_last)
+//		{
+//			if (adc_relax_crt[axix_index] == ALARM)
+//			{
+//				if (adcRlxAlmVerifyCnt[axix_index] == 0)
+//				{
+//					adcRlxAlmVerifyCnt[axix_index] = 1;
+//				}
+//				if (adcRlxAlmVerifyCnt[axix_index] >= RELAX_VERIFIED_TIME_S)
+//				{	//如：3 = 4-1, 3秒确认
+//					Set_Alarm_State_Util_Clear(axix_index == 0? A_RLX_MASK : B_RLX_MASK);
+//					ALARM_Update();
+//					//return;
+//				}
+//				else
+//				{
+//					//return;
+//				}
+//			}
+//			else
+//			{
+//				adcRlxAlmVerifyCnt[axix_index] = 0;
+//				CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_RLX_MASK : B_RLX_MASK));
+//				ALARM_Update();
+//				//return;
+//			}
+//		}
 	}
 	else
 	{
-		adcIvdAlmVerifyCnt[field_index] = 0;
-		adcOpnAlmVerifyCnt[field_index] = 0;
-		adcRlxAlmVerifyCnt[field_index] = 0;
-		CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_OPN_MASK : B_OPN_MASK));
-		CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_INVD_MASK : B_INVD_MASK));
-		CLEAR_ALARM_STATE(ALARM_STATE, (field_index == 0? A_RLX_MASK : B_RLX_MASK));
+		adcIvdAlmVerifyCnt[axix_index] = 0;
+		adcOpnAlmVerifyCnt[axix_index] = 0;
+		adcRlxAlmVerifyCnt[axix_index] = 0;
+		CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_OPN_MASK : B_OPN_MASK));
+		CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_INVD_MASK : B_INVD_MASK));
+//		CLEAR_ALARM_STATE(ALARM_STATE, (axix_index == 0? A_RLX_MASK : B_RLX_MASK));
 		ALARM_Update();
 		//return;
 	}
@@ -637,23 +641,23 @@ void setAlarmDelay(u8 i, u16 almDly)
 
 /**
  * 设置告警灵敏度
- * field_index: 防区序号： 0：A防区， 1：B防区
+ * axix_index: 防区序号： 0：A防区， 1：B防区
  * sensitivity 灵敏度，1-10： 0.5-5s
  */
-void setAlarmSensitivity(u8 field_index, u8 sensitivity)
+void setAlarmSensitivity(u8 axix_index, u8 sensitivity)
 {
-	alarm_sensitivity[field_index] = sensitivity;
+	alarm_sensitivity[axix_index] = sensitivity;
 	WriteFieldParaToEEProm();
 }
 
 /**
  * 设置拉力监控范围有效值。
- * field_index: 防区序号： 0：A防区， 1：B防区
+ * axix_index: 防区序号： 0：A防区， 1：B防区
  * highLowFlag: 0：下限值， 1：上限值
  */
-void setTenValRange(u8 field_index, u8 highLowFlag, u16 tenVal)
+void setTenValRange(u8 axix_index, u8 highLowFlag, u16 tenVal)
 {
-	ten_val_range[field_index][highLowFlag] = tenVal;
+	ten_val_range[axix_index][highLowFlag] = tenVal;
 	WriteFieldParaToEEProm();
 }
 

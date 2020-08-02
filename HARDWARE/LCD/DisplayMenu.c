@@ -31,7 +31,7 @@ void DisplayRunMenu(void)
 	//双防区：0，XC-100WS, 单防区：1，XC-100WD
 	char line_1D[] = "    XC-100WD    ";  
 	char line_1S[] = "    XC-100WS    ";
-	char line_2[] = "  张力围栏主机  ";
+	char line_2[] = "  矢量围栏主机  ";
 	char line_3[19] = {0};
 	char line_4[] = "设备温度：    ℃";
 	strcpy(line_3,rtcTempStr);
@@ -189,7 +189,7 @@ void DisplayInquireMenu(void)
 void DisplayTensionMonitor(void)
 {
 	char line_1[] = "《拉力监控》";
-	char line_2[] = "A防区";
+	char line_2[] = "防区";
 	char line_3[] = "B防区";
 	
 	Lcd_Clear(FullScreen);
@@ -260,7 +260,7 @@ void DisplaySetSysPara(void)
 void DiaplaySetFangQuPara(void)
 {
 	char line_1[] = "《防区参数》";
-	char line_2[] = "A防区";
+	char line_2[] = "防区";
 	char line_3[] = "B防区";
 	
 //	char char_A[] = "A";
@@ -1066,7 +1066,7 @@ void DisplaySetClearRecord(void)
 	
 	char list[3][16] = {
 										"入侵告警",
-										"断线告警",
+										"偏移告警",
 										"防拆告警"
 		};
 	
@@ -1340,7 +1340,7 @@ void DisplayInqAlarmRecord(void)
 	
 	char list[3][16] = {
 										"入侵告警",
-										"断线告警",
+										"偏移告警",
 										"防拆告警"
 		};
 	
@@ -1403,7 +1403,7 @@ void DisplayInqZeroVal(void)
 	char line_1[] = "《零点值》";
 	
 	char list[2][16] = {
-										"A防区",
+										"防区",
 										"B防区"
 		};
 	
@@ -1422,7 +1422,7 @@ void DiaplayInqDatumVal(void)
 	char line_1[] = "《基准值》";
 	
 	char list[2][16] = {
-										"A防区",
+										"防区",
 										"B防区"
 		};
 	
@@ -1439,7 +1439,7 @@ void DiaplayInqDatumVal(void)
 void DisplayInqExtDeviceType(void)
 {
 	char line_1[] = "《兼容外部设备》";
-	char line_2[] = "A防区:";
+	char line_2[] = "防区:";
 	char line_2_2[] = "";
 	char line_3[] = "B防区:";
 	char line_3_2[] = "";
@@ -2058,7 +2058,7 @@ void DisplayClearRuQinAlarmRecord(void)
 
 void DisplayClearDuanXianAlarmRecord(void)
 {
-	char line_1[] = "《清除断线告警》";
+	char line_1[] = "《清除偏移告警》";
 	char char_A[] = "A";
 	char char_B[] = "B";
 	char hanzi_qu[] = "区";
@@ -2178,7 +2178,7 @@ void DisplayInqRuQinAlarmRecord(void)
 
 void DisplayInqDuanXianAlarmRecord(void)
 {
-	char line_1[] = "《断线告警》";
+	char line_1[] = "《偏移告警》";
 	char char_A[] = "A";
 	char char_B[] = "B";
 	char hanzi_qu[] = "区";
@@ -2466,11 +2466,11 @@ void DisplayInqBAreaRuQinAlarmRecord(void)
 
 void DisplayInqAAreaDuanXianAlarmRecord(void)
 {
-	//《A区断线告警》
+	//《A区偏移告警》
 	//第一条
 	//第二条
 	//...
-	char line_1[] = "《  区断线告警》";
+	char line_1[] = "《  区偏移告警》";
 	char char_A[] = "A";
 	
 	Lcd_Clear(FullScreen);    //清全屏
@@ -2483,7 +2483,7 @@ void DisplayInqAAreaDuanXianAlarmRecord(void)
 
 void DisplayInqBAreaDuanXianAlarmRecord(void)
 {
-	char line_1[] = "《  区断线告警》";
+	char line_1[] = "《  区偏移告警》";
 	char char_B[] = "B";
 	
 	Lcd_Clear(FullScreen);    //清全屏
@@ -2635,9 +2635,9 @@ void DisplayAlarmTypeList(void)
 
 	//《告警信息列表》（超过3条的可通过按上、下键可查看）
 	//A防区入侵
-	//A防区断线
+	//A防区偏移
 	//B防区入侵
-	//B防区断线
+	//B防区偏移
 	//防拆告警
 	//A区红外对射
 	//B区红外对射
@@ -2646,7 +2646,7 @@ void DisplayAlarmTypeList(void)
 	char char_B[] = "B";
 	char qu[] = "区";
 	char fangquduanluAlarm[] = "防区入侵告警";
-	char fangquduanxianAlarm[] = "防区断线告警";
+	char fangquduanxianAlarm[] = "防区偏移告警";
 	char fangqusongchiAlarm[] = "防区松弛告警";
 	char fangchaiAlarm[] = "防拆告警";
 	char sw1Name[] = "开关量1";

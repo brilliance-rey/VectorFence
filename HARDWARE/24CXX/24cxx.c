@@ -208,37 +208,37 @@ void ReadNetParasFromEEProm(void){
 /**
  *
  * 保存零点值(6线), KG u16 a_zero_val[6]; u16 b_zero_val[6];
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void WriteAdcZeroToEEProm(u8 field_index){
-	AT24CXX_Write((field_index == 0? A_ADC_ZERO_ADDR : B_ADC_ZERO_ADDR), (u8 *)zero_val[field_index], sizeof(zero_val[field_index]));
+void WriteAdcZeroToEEProm(u8 axix_index){
+	AT24CXX_Write((axix_index == 0? A_ADC_ZERO_ADDR : B_ADC_ZERO_ADDR), (u8 *)zero_val[axix_index], sizeof(zero_val[axix_index]));
 }
 
 /**
  *
  * 读取零点值(6线), KG u16 a_zero_val[6]; u16 b_zero_val[6];
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void ReadAdcZeroFromEEProm(u8 field_index){
-	AT24CXX_Read((field_index == 0? A_ADC_ZERO_ADDR : B_ADC_ZERO_ADDR), (u8 *)zero_val[field_index], sizeof(zero_val[field_index]));
+void ReadAdcZeroFromEEProm(u8 axix_index){
+	AT24CXX_Read((axix_index == 0? A_ADC_ZERO_ADDR : B_ADC_ZERO_ADDR), (u8 *)zero_val[axix_index], sizeof(zero_val[axix_index]));
 }
 
 /**
  *
  * 保存零点值(6线), KG u16 a_base_val[6]; u16 b_base_val[6];
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void WriteAdcBaseToEEProm(u8 field_index){
-	AT24CXX_Write((field_index == 0? A_ADC_BASE_ADDR : B_ADC_BASE_ADDR), (u8 *)base_val[field_index], sizeof(base_val[field_index]));
+void WriteAdcBaseToEEProm(u8 axix_index){
+	AT24CXX_Write((axix_index == 0? A_ADC_BASE_ADDR : B_ADC_BASE_ADDR), (u8 *)base_val[axix_index], sizeof(base_val[axix_index]));
 }
 
 /**
  *
  * 读取零点值(6线), KG u16 a_base_val[6]; u16 b_base_val[6];
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void ReadAdcBaseFromEEProm(u8 field_index){
-	AT24CXX_Read((field_index == 0? A_ADC_BASE_ADDR : B_ADC_BASE_ADDR), (u8 *)base_val[field_index], sizeof(base_val[field_index]));
+void ReadAdcBaseFromEEProm(u8 axix_index){
+	AT24CXX_Read((axix_index == 0? A_ADC_BASE_ADDR : B_ADC_BASE_ADDR), (u8 *)base_val[axix_index], sizeof(base_val[axix_index]));
 }
 
 void WriteAlmThrdToEEProm(void){

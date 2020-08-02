@@ -14,7 +14,7 @@
 ////////////////////////////////////////////////////////////////////////////////// 	 
 
 //	ADC转换通道选择：
-//		PC8（PIN_65）	O	ADC_CTRL0	四线制时选通A和B防区某一路作为输出
+//		PC8（PIN_65）	O	ADC_CTRL0	四线制时选通A和Y轴某一路作为输出
 //		PC9（PIN_66）	O	ADC_CTRL1
 //		PA8（PIN_67）	O	ADC_CTRL2	六线制时选通A或B各剩余两路某一路作为输出
 //		PA9（PIN_68）	O	ADC_CTRL3
@@ -29,9 +29,9 @@
 //通道 13	PC3		PC3		PC3
 
 //	ADC检测
-//	PC2（PIN_17）	I	ADC_A_Chn	A防区电压监测
-//	PC0（PIN_15）	I	ADC_B_Chn	B防区电压监测
-//	PC3（PIN_18）	I	ADC_AB_Chn	六线时A/B防区电压监测
+//	PC2（PIN_17）	I	ADC_A_Chn	X轴电压监测
+//	PC0（PIN_15）	I	ADC_B_Chn	Y轴电压监测
+//	PC3（PIN_18）	I	ADC_AB_Chn	六线时X/Y轴电压监测
 
 #define ADC_A_Chn	ADC_Channel_12
 #define ADC_B_Chn	ADC_Channel_10
@@ -51,7 +51,7 @@ extern s16 base_val[2][6];
 //A(0),B(1)防区当前值(6线)， KG
 extern s16 crt_val[2][6];
 
-//校准标记：bit7-4: 0：校准zero, 1:校准基准值, bit3-0: 0:A防区，1:B防区， 默认为：0xFF
+//校准标记：bit7-4: 0：校准zero, 1:校准基准值, bit3-0: 0:X轴，1:Y轴， 默认为：0xFF
 extern u8 calibrating_flag;
 
 //校准使能标志，1：能校准，0：不能校准
@@ -78,34 +78,34 @@ u16 Get_Adc_Average_Def(u8 ch);
 
 /**
  * 获取采样Adc原始值，未修正的值，即未减去零点值。
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  * times：取平均值的采样次数，0：是为默认值（ADC_TIME_DEFAULT次）
  */
-void sampleAdc(u8 field_index, u16 times);
+void sampleAdc(u8 axix_index, u16 times);
 
 ///**
-// * 单独获取A防区的Adc采样原始值，未修正的值，即未减去零点值。
+// * 单独获取X轴的Adc采样原始值，未修正的值，即未减去零点值。
 // * times：取平均值的采样次数，0：是为默认值（ADC_TIME_DEFAULT次）
 // */
 //void sampleAdcA(u16 times);
 //
 ///**
-// * 单独获取B防区的Adc采样原始值，未修正的值，即未减去零点值。
+// * 单独获取Y轴的Adc采样原始值，未修正的值，即未减去零点值。
 // * times：取平均值的采样次数，0：是为默认值（ADC_TIME_DEFAULT次）
 // */
 //void sampleAdcB(u16 times);
 
 /**
  * 更新零点值
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void updateZeroVal(u8 field_index);
+void updateZeroVal(u8 axix_index);
 
 /**
  * 更新基准值
- * field_index: 0:A防区， 1:B防区
+ * axix_index: 0:X轴， 1:Y轴
  */
-void updateBaseVal(u8 field_index);
+void updateBaseVal(u8 axix_index);
 
 /**
  * 校准中。。。
@@ -113,18 +113,18 @@ void updateBaseVal(u8 field_index);
 void calibrating(void);
 
 /**
- * 更新A,B防区当前采样值的修正值（减去零点值）
- * field_index: 0:A防区， 1:B防区
+ * 更新A,Y轴当前采样值的修正值（减去零点值）
+ * axix_index: 0:X轴， 1:Y轴
  */
-void updateCrtSmp(u8 field_index);
+void updateCrtSmp(u8 axix_index);
 //
 ///**
-// * 更新A防区当前采样值的修正值（减去零点值）
+// * 更新X轴当前采样值的修正值（减去零点值）
 // */
 //void updateCrtSmpA(void);
 //
 ///**
-// * 更新B防区当前采样值的修正值（减去零点值）
+// * 更新Y轴当前采样值的修正值（减去零点值）
 // */
 //void updateCrtSmpB(void);
 
